@@ -1,0 +1,15 @@
+{
+"GBatRon1":{"currspd":21,"spdstep":3,"bestspd":21,"b4turn": 0,"straight":8,"move":"A21","facing":0,"ships":["GB10","GB11","GB12","GB13","GB9","GB14","GB15","GB8"]},
+"GBatRon2":{"currspd":21,"spdstep":3,"bestspd":24,"b4turn": 0,"straight":8,"move":"A24","facing":0,"ships":["GB1","GB7","GB2","GB5","GB4"]},
+"RBatDiv1":{"currspd":15,"spdstep":3,"bestspd":21,"b4turn": 0,"straight":8,"move":"A18","facing":4,"ships":["RB2","RB4","RB5","RB6","RB7","RB8","RB3","RB1"]},
+"GCruDiv1a":{"currspd":21,"spdstep":6,"bestspd":30,"b4turn": 0,"straight":6,"move":"S24","facing":0,"ships":["GCr21","GCr23"]},
+"GCruDiv1b":{"currspd":21,"spdstep":6,"bestspd":30,"b4turn": 0,"straight":6,"move":"A24","facing":0,"ships":["GCr22","GCr24"]},
+"GDesRon1":{"currspd":21,"spdstep":6,"bestspd":30,"b4turn": 0,"straight":6,"move":"A16S8","facing":0,"ships":["GCr39","GDH1","GDH2","GDH3","GDH4","GDH5","GDH6","GDH7","GDH8"]},
+"GDesRon2":{"currspd":21,"spdstep":6,"bestspd":30,"b4turn": 0,"straight":6,"move":"A24","facing":0,"ships":["GCr25","GDH9","GDH10","GDH11","GDH12","GDH13","GDH14","GDH15","GDH16"]},
+"GRearDiv":{"currspd":21,"spdstep":6,"bestspd":21,"b4turn": 0,"straight":6,"move":"A21","facing":0,"ships":["GCr36","GDH17","GDH18","GDH19","GDH20","GCr1"]},
+"RCru1":{"currspd":15,"spdstep":6,"bestspd":30,"b4turn": 0,"straight":6,"move":"A18","facing":4,"ships":["RC1","RC2"]},
+"RCru2":{"currspd":15,"spdstep":6,"bestspd":30,"b4turn": 0,"straight":6,"move":"A18","facing":4,"ships":["RC3","RC4"]},
+"RDesRon1":{"currspd":15,"spdstep":6,"bestspd":30,"b4turn": 0,"straight":4,"move":"A18","facing":4,"ships":["RD1","RD2","RD3","RD4","RD5","RD6","RD7","RD8"]},
+"RDesRon2":{"currspd":15,"spdstep":6,"bestspd":30,"b4turn": 0,"straight":4,"move":"A18","facing":4,"ships":["RD9","RD10","RD11","RD12","RD13","RD14","RD15","RD16"]},
+"sunk":{"currspd":0,"spdstep":0,"bestspd":0,"b4turn": 0,"straight":0,"move":"","facing":0,"ships":[]}
+}

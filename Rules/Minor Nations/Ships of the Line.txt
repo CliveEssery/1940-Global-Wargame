@@ -1,0 +1,99 @@
+Ships of the Line
+
+Ships of the Line, or Liners for short, is another really oddball concept, you don’t have to use it, but I had fun designing it.
+
+The concept has one major advantage – far more aircraft that most if not all other nations, one medium advantage – you will devastate your enemies light ships, and one huge disadvantage – you cannot damage your enemies Battlewagons apart from by using aircraft.
+
+Think of the ships as Napoleonic Ships of the line with Battlecruiser style long stems and sterns.  Like the ships of old they have a forecastle and a poop (the Upperdecks) and the ship is conned from the latter.  Beneath that is the Upper Gun Deck, with guns firing out of the sides of the forecastle and poop and from the open waist.  On CA’s and larger ships there is a Lower Gun Deck, and for the Battlecruisers and Pre-Dreadnought Battleships there is also a Middle Gun Deck.  There is a large Military Tripod at the step of the forecastle and the poop which house the Low Angle and High Angle controllers and sighting posts and Radars if appropriate.
+
+This country has no Torpedoes, and hence no Submarines or Torpedo Bombers.  The Submarine Pool is allocated to the Carrier Pool and all the TB are replaced by Dive Bombers (DB).  This also means that none of the ships have scout planes, so the number of Recce planes (RE) are tripled at the same base (each base gets three times the number of RE planes than other countries receive.  If this appears to be too many or too few then the Umpire may adjust the multiplier.  There shall also be three extra merchant ships in the PL period that have one very large crane and a RE plane on the after deck.  The RE plane can be craned off into the water and take off from the sea in mild weather.  See XXXX for more details.
+
+The 5,600 tons assigned to submarines for most nations in the EIT period, shall be assigned to the Carrier Pool and can be used for any of the following three options: 
+- start work on an EVF during the EIT period
+- save up the tonnage to build a LVL during the LIT period
+- save up the tonnage to be used after Start of Hostilities on completing PL period carriers or to build new carriers after the Start of Hostilities.
+
+The 16,200 tons assigned to submarines for most nations in the LIT period, shall be assigned to the Carrier Pool and can be used for any of the following three options:
+- complete work on the EVF started during the EIT period (if the EVF is started during the EIT period it must be completed in the LIT period).  Note this is absolutely the only time when an EIT carrier can be completed in a later period.
+- build a LVL during the LIT period
+- save up the tonnage to be used after Start of Hostilities on completing PL period carriers or to build new carriers after the Start of Hostilities.
+
+XXXX PLT submarines – is there any anywhere?
+
+Obviously the sum of these two figures is greater than is needed for either a EVF or a LVL, so the remaining tonnage can be saved up to be used after Start of Hostilities.
+
+The post Start of Hostilities 1% of steel, normally fed into the Submarine Pool, is instead fed into the Carrier Pool giving 6% in total. XXXX 1% sub=5%carrier, shud this b 10%?
+
+A second major difference is that this country does not have any DP guns and can never design any DP guns after Start of Hostilities.  All DP guns on the standard carrier designs shall be replaced by AA guns of the same calibre.  Note this country may not have any mounts with more than one gun, so all twin DP mounts will be replaced with two single AA guns.  All other guns are QF Quick Firers except for the mothballed ships (MB) which have BL Breach Loaders that are slower firing, but may be converted to a mix of QF and AA as specified below.
+
+The armour layout is unusual, what follows applies to all periods.  The main Armoured Deck is below the Upper Gun Deck so does not protect the Upper Gun Deck or the Upper Deck.  Shells not penetrating the Armoured Deck will fall amongst the Upper Gun Deck Guns.  HE shells fired from DF and smaller will fall amongst the Upper Deck Guns, until all are destroyed in the area hit, then the damage will be to the Upper Gun Deck Guns below them.
+
+The Armoured Deck does however protect the engines which lie in a box half the width of the ship (on ships of 48 Razee or larger size), they also fill the hold on all ships.
+
+The Armoured Belt runs the full length of the battery and protects the engines from side on hits and all the guns on the Lower Gun Deck.  The Middle Gun Deck (if one exists) and the Upper Gun Deck can be armoured as well to protect those guns from Belt hits.  Treat them as extra belts of the desired thickness but divide the cost by 3 as the Belt covers a lot more than one deck height.  Note the Middle Gun Deck also protects the engines from the side so needs to be fairly thick.  The ends of the Armoured Belt are joined by a vertical Armoured Bulkhead which is the same thickness as the Armoured Belt (and Middle Gun Deck where appropriate) forming a box around the guns and the engines.  The engines also have an Armoured Box around them on the Lower and Middle Gun Decks.  If a shell hits and would penetrate the Armoured Belt/Middle Gun Armour + 4” then the Engine Box has been penetrated and the shell explodes in the Engine Space with only splinter damage being done to the Guns.  If the shell penetrates the side armour + 8” then the shell explodes in the far gun battery and if the shell would penetrate twice the side armour + 8” it passes right through the ship.
+
+It can be assumed that all the decks have light armour which will stop the explosion of a shell from reaching the battery above or below the one where the hit was.  The Upper Deck is unarmoured though (the waist is actually open to the air) so explosions on the Upper Deck can damage guns on the Upper Gun Deck.
+
+All guns in a battery can fire from 45 degrees before the beam to 45 degrees abaft the beam.  The foremost gun on each deck can also fire into the area from 45 degrees before the beam to dead ahead, but takes 15 minutes (3 moves in my rules) to move each gun from one location to the other – all guns capable of this move can be moved at the same time.  Similarly the rearmost gun can be moved to fire into the area from 45 degrees abaft the beam to dead astern.  AA guns can fire cross deck if engaging medium or high flying targets, including Dive Bombers (DB).  Chasers, the end guns on the Upper Deck, can engage targets in the appropriate 270 degree arc.
+
+The designs for EW1 and MW1 Battlecruisers are listed below (four of each must be built as with all other nations, ie 1x120, 1x100 and 2x90).  In LW1 an improved design is available, the older ships cannot be rebuilt to this new design.  This is improved again in the PL period and the LW2 period.
+
+Other ship types such as SDr (limited to 21 knots, as a Battleship) and AC (limited to 24 knots, as an Armoured Cruiser) and in later periods CA, CL, DF, DD, DD and MB can be built.  The later can be converted to more modern guns and have their engines replaced with more economical 21 knot engines.  Note there are no CA1, CA6, CL1 or CL6 ships.  The CL1 tonnage is instead used in the CA1 budget to increase the number of ACs.  This nation does not have access to AA Cruisers in the way that other nations do but it has more AA guns per ship than most other nations.
+
+Note the SDrs and ACs can be “razzed” after Start of Hostilities to build a heavy CA and CL to increase the number of 6” guns and to carry more and larger AA guns. XXXX time to do this.
+
+RatingLower Gun DeckMiddle Gun DeckUpper Gun DeckUpper DeckEquivalent Type ofNotesNumCalNumCalNumCalNumCalShipSee Below120168186205124AABC3rd of 4100148156165114AABC1st of 49012814616583AABC2nd/4th of 49012614516463AASDr21 kts701261454684AARazze 90No actual UGDeck8016820674AACA7416818553AACA3 kts less than 3-deckers, Min 246414616543AAAC24 kts481464684AARazze 64No actual UGDeck4416684AACL3616544AACL2810463AADF208343AADD143353AADE1223BL43BLMB30 kts1223QF53AAMB Conv21 kts - new engines
+In the table above, Rating is the equivalent Rating in the Napoleonic Navies.  The Deck records the number and size of the guns on one side of the specified deck, so a 120 has 16x8” QF per side and a 20 has 8x3” QF.  The Equiv column shows the equivalents in the rules, which this forms part of, and the Notes column shows extra information.
+
+The Battlecruisers should be built in groups of 4 with a 120 as the 3rd of the group of 4, a 100 as the 1st of the group and 90s as the 2nd and 4th of the group.  So the EW1 and MW1 periods should, between them, have 2x120s, 2x100s and 4x90s all built to the rules above.  The optionally improved LW1 period ships may have more than 4 ships built, if for example there were 7 then there would be 2x120s, 2x100s and 3x90s as the fourth one in the second group would normally be a 90.
+
+Spare W1 period tonnage can be used to build 90s (SDr) which are restricted to 21 knots, but can be re-engined when they are Razeed to 24 knots.
+
+The two Razee designs have no Upper Gun Deck, The Forecastle, Poop and Upper Gun Deck are all cut off leaving a completely open deck with no bulwarks.  Two of the four 6” per side are mounted as chasers in shields, 2 at the bow side by side and two at the stern.  The chasers may fire at any angle from 45 degrees to the opposite side to 135 degrees on their own side.  The other two 6” per side are mounted in shields on sponsons that allow fire from dead ahead to 5 degrees off the stern (so as not to hit the ship or the other sponsoned gun.  Two of the AA guns, shown on the Upper Deck in the above table, are between the rearmost sponsoned 6” and the stern chaser on the same deck and are unprotected apart from a splinter shield (0.25” of armour).  Two of the remainder of the AA guns are mounted between the sponsoned 6”  and the 5th is between the fore chaser and the fore sponson, all in shields as per the rearmost ones.  A small bridge is placed across the ship forward of the Main Mast with sufficient height to look over the guns – similar to the bridge on HMS Warrior if you have had a chance to visit that ship.
+
+A maximum of 1x80 can be built in each group of six CAs and a maximum of one 1x44 can be built in each group of six CLs.  In both cases the larger ship will be the fourth built within each group, so three small ships, one larger then two smaller, rinse and repeat.
+
+The 74s shall be 24 knot XXXX ships until the PL period when they may become 30 knot ships.  Ie they shall always be 3 knots slower than the 3-deckers of the same period.  This reflects the fact that the 3-deckers have one more deck of space for the engines and that the larger press of sails at Trafalgar enabled the 3-deckers there to outsail their 2-decker equivalents (except for the few 80s).  All 3-decker Battlecruisers in any period may be built up to 30 knots but with a minimum of 27 knots, PL and later 3-deckers may be built up to 33 knots.
+
+The 12 gun MB ships are all the same, 30 knots with the specified guns all on the open deck, though firing through firing ports in the bulwarks, these may be converted after Start of Hostilities to the MB Converted design with QF and AA.  The rearmost AA XXXX rearmost guns may be chasers on each side may be replaced by a Depth Charge (DC) of the appropriate period, and if the ship is moved to a dry dock then an ASDIC system of the appropriate period may also be fitted.  XXXX times
+
+On all ships (except Razee and MB), no more than 2 of the side AA may be mounted on each side of the poop, the rest are mounted on the forecastle, obviously if DC are fitted on the DF and below (28 gun or smaller), then only 1 AA may be mounted on each side of the poop.  The bulwarks will be cut away to allow AA to engage medium or high flying aircraft whereas QF guns on the same deck will fire through a firing port like all other guns on the ship.  
+
+On all ships, one or two Bow Chasers (and/or a single Stern Chaser) may be fitted instead of some of the AA guns.  If only one Chaser is fitted at an end then 2 AA guns are taken from each side at that end, if two are fitted then 3 AA must be taken from each side (hence only one chaser may be fitted at the stern).  The Chaser is the same calibre as the foremost gun on the lowest deck.  Razee and MB have a different layout and have 2 chasers at both the bow and stern, with the other QF and AA are in the centre of the ship.
+
+If a Stern Chaser is fitted on a DF or smaller then no Depth Charges can be fitted to the same vessel.  Note however that MB may replace either the stern chaser or the rearmost AA with Depth Charges (not both).  Note also that the LW2 period ships can have 10” guns at the foremost position of the lowest Gun Deck, see improved designs below XXXX.
+
+As time goes by, improved designs were built, though note that MB never get an improvement and DF/DD/DE only get the LW2 period improvement.
+
+In the LW1 period, the centre four guns on each deck (except the AA) can be enlarged to the next size.
+
+In the PL period, the centre eight guns on each deck (except the AA) can be enlarged to the size greater than the original size.
+
+In the LW2 period, all guns may be enlarged to the size greater than the PL period sizes, including the AA guns.
+
+The size sequence is 3, 4, 5, 6, 8, 10, 12.
+
+Hence each side of a LW2 120 can be - 8x12, 8x10 on LGD, 8x10, 10x8 on MGD, 8x8, 12x6 on UGD, and 12x5AA on UD.  
+
+A DD division/flotilla XXXX is 1x28 and 3x20, but note that they don’t have any torpedoes.  They may be fitted with ASDIC of the period in which they were built, and the rearmost AA gun on each side may be replaced by a Depth Charge of the period in which they were built.  They may have Belt Armour up to ½” and a Deck Armour up to ¼” but this only protects the engines as the Deck is below the Upper Gun Deck.  The Upper Deck Guns can be protected by a belt up to ½” but there is no protection if the shells land on the Deck rather than the Belt.
+
+XXXX no EIT conversion Budget as such
+The EIT Conversion Budget can be used to make the following changes:
+- Convert up to 4 Battlecruisers with at least 30 knot speed and weighing at least 28,000 tons to EVA (not the British type).XXXX 27 knot?
+- Convert up to 2 Armoured Cruisers with at least 24 knot speed and weighing at least 14,000 tons to EVL.  XXXX is this possible – weight and speed.
+
+The LIT Conversion Budget has already been used to replace the QF guns on the Upper Deck to AA for all ships completed before the LIT period.
+
+If the two Battlecruisers are built during the LIT period (with the permission of the majority of players) then one of these can be completed as a LVF or LVL with the other being completed as a Battlecruiser with the remaining weight.
+
+Up to two LVL each using 12,000 tons may be built from the LIT Cruiser Budget.
+
+Up to 50% of the PL Battleship Budget may be added to any remaining EIT/LIT Carrier Budget and used to build PVF, the remainder of this combined budget cannot go back into the Carrier Pool if it is not used.  Only the EIT/LIT Carrier Budget can be put back into the Carrier Pool.
+
+Up to two PVL each using 12,000 tons may be built from the PL Cruiser Budget.
+
+Tonnage for these ships – don’t think we can allow them to be designed, need 24kt, 27kt and 30kt options.  Later 33kt.
+
+East India Company (EIC) Variation
+
+In this variation convert all 10,000 ton Merchantmen (including Oilers) to a CA (74 gun).  No 3,333 ton Merchantmen can be built.  Design all ships with their maximum armament – record the tonnage of the design into the column marked “Max Tonnage” – either type it or paste it as a value, don’t link the two cells.  Remove some of the guns, your choice as to which ones but the same number should be removed from each deck to stop the ship being unstable, except that the entire Lower Gun Deck may be cleared with only some guns from the Upper Gun Deck and the Upper Deck (an equal number from each).  The “Cargo” column shows how much cargo the design can carry – the ship must be designated as carrying a specific type of cargo (crude oil, fuel oil, general cargo, grain, meat etc).  This is the only way to carry cargo for this nation, but all ships can protect themselves to a degree.  No VE can be built, but the late war amphibious designs can be built but are limited to the capacity in the “Cargo” column.  LSC must have at least 5,000 tons of cargo capacity XXXX.
