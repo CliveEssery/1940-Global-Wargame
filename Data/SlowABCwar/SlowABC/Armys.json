@@ -1,0 +1,12 @@
+{"TrainingCap":{"purpose":"Training at Capital","location":{"iris":0,"bearing":0,"x":0,"y":0}, "brigades":["5M1A","5M1B","6A3-","4M1A","4M1B","5A3-","4A3-"]},
+"AttLNI":{,"purpose":"Attack LNI","location":{"iris":0,"bearing":0,"x":-200,"y":0},"brigades":["1A4B","2A4B","1M4B","2M4B","18I1A","18I1B","19I1A","19I1B","20I1A","20I1B"]},
+"AttNPole":{,"purpose":"Attack Npole CECap Brigades","location":{"iris":0,"bearing":0,"x":0,"y":200},"brigades":["1A4A","3M3A","5I4A","10I1A"]},
+"AttNPole",,"purpose":"Attack Npole W Brigade","location":{"iris":0,"bearing":0,"x":0,"y":200},"brigades":["3I4B","13I1A"]},
+"AttNI",,"purpose":"Attack Northern Inner Islands","location":{"iris":0,"bearing":0,"x":0,"y":200},"brigades":["3I4B","12I1A","16I1A","16I1B"]},
+"AttNO",,"purpose":"Attack Northern Outer Islands","location":{"iris":0,"bearing":0,"x":0,"y":200},"brigades":["3I4A","11I1A","14I1A","14I1B"]},
+"Reserve",,"purpose":"Wait until Needed","location":{"iris":0,"bearing":0,"x":0,"y":0},"brigades":["3A3A","3A3B","1I2A","1I2B","2I2A","2I2B","6I4A","6I4B","8I2A","8I2B","9I2A","9I2B"]},
+"AttSII",,"purpose":"Attack Southerly Inner Islands","location":{"iris":0,"bearing":"bearing":0,"x":0,"y":-200},"brigades":["4I4B","17I1B","12I1B","17I1A"]},
+"AttSOI",,"purpose":"Attack Southerly Outer Islands","location":{"iris":0,"bearing":0,"x":0,"y":-200},"brigades":["4I4A","15I1B","11I1B","15I1A"]},
+"AttSPole CECap",,"purpose":"Attack S Pole CECap Brigades","location":{"iris":0,"bearing":0,"x":0,"y":-200},"brigades":["2A4A","3M3B","5I4B","10I1B"]},
+"AttSPoleW": {"purpose":"Attack S Pole W Brigade","location":{"iris":0,"bearing":0,"x":0,"y":-200},"brigades":["2M4A","13I1B"]}
+}

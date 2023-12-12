@@ -54,8 +54,10 @@ class MainMenu(tk.Menu):
 # do we need to pack this?
         self.create_file_menu()
         self.create_edit_menu()
-        self.create_formations_menu()
+        self.create_worlds_menu()
+        self.create_nations_menu()
         self.create_fleets_menu()
+        self.create_formations_menu()
         self.create_slips_menu()
         self.create_battle_menu()
         self.create_about_menu()
@@ -79,24 +81,43 @@ class MainMenu(tk.Menu):
         self.add_cascade(label="Edit", menu=self.edit_menu)
 #        self.parent.config(menu=self.menu_bar)
 
-    def create_formations_menu(self):
-        self.formations_menu = tk.Menu(self, tearoff=False)
-        self.formations_menu.add_command(label="Build Formation", command=self.callbacks['formation->build_formation'])
-        self.formations_menu.add_command(label="Join Formations", command=self.callbacks['formation->join_formations'])
-        self.formations_menu.add_command(label="Split Formation", command=self.callbacks['formation->split_formation'])
-        self.formations_menu.add_command(label="Rename Formation", command=self.callbacks['formation->rename_formation'])
-        self.formations_menu.add_command(label="Delete Formation", command=self.callbacks['formation->delete_formation'])
-        self.add_cascade(label="Formations", menu=self.formations_menu)
+    def create_worlds_menu(self):
+        self.worlds_menu = tk.Menu(self, tearoff=False)
+        self.worlds_menu.add_command(label="Select Nation", command=self.callbacks['fleet->select_world'])
+#        self.worlds_menu.add_command(label="New World", command=self.on_new_world_menu_clicked)
+        self.add_cascade(label="Worlds", menu=self.worlds_menu)
+#        self.parent.config(menu=self.menu_bar)
+
+    def create_nations_menu(self):
+        self.nations_menu = tk.Menu(self, tearoff=False)
+        self.nations_menu.add_command(label="Select Nation", command=self.callbacks['fleet->select_nation'])
+#        self.fleets_menu.add_command(label="New Nation", command=self.on_new_nation_menu_clicked)
+#        self.fleets_menu.add_command(label="Remove Nation", command=self.on_remove_nation_menu_clicked)
+        self.add_cascade(label="Nations", menu=self.nations_menu)
 #        self.parent.config(menu=self.menu_bar)
 
     def create_fleets_menu(self):
         self.fleets_menu = tk.Menu(self, tearoff=False)
-        self.fleets_menu.add_command(label="Build Fleets", command=self.on_build_fleets_menu_clicked)
-        self.fleets_menu.add_command(label="Join Fleets", command=self.on_join_fleets_menu_clicked)
-        self.fleets_menu.add_command(label="Split Fleets", command=self.on_break_fleets_menu_clicked)
-        self.fleets_menu.add_command(label="Execute Movement", command=self.on_execute_movement_menu_clicked)
-        self.fleets_menu.add_command(label="Engage Enemy", command=self.on_engage_enemy_menu_clicked)
+        self.fleets_menu.add_command(label="New Fleet", command=self.callbacks['fleet->new_fleet'])
+        self.fleets_menu.add_command(label="Rename Fleet", command=self.callbacks['fleet->rename_fleet'])
+        self.fleets_menu.add_command(label="Delete Fleet", command=self.callbacks['fleet->delete_fleet'])
+        self.fleets_menu.add_command(label="Swap Formations", command=self.callbacks['fleet->swap_formations'])
+#        self.fleets_menu.add_command(label="Execute Movement", command=self.callbacks['fleet->execute_movement'])
+#        self.fleets_menu.add_command(label="Engage Enemy", command=self.callbacks['fleet->engage_enemy'])
         self.add_cascade(label="Fleets", menu=self.fleets_menu)
+#        self.parent.config(menu=self.menu_bar)
+
+    def create_formations_menu(self):
+        self.formations_menu = tk.Menu(self, tearoff=False)
+        self.formations_menu.add_command(label="New Formation", command=self.callbacks['formation->new_formation'])
+#       to join two formations, run the swap_ships option and move all the ships from one formation to the other
+#        self.formations_menu.add_command(label="Join Formations", command=self.callbacks['formation->join_formations'])
+#		to split a formation, create a new formation and swap ships between them
+#        self.formations_menu.add_command(label="Split Formation", command=self.callbacks['formation->split_formation'])
+        self.formations_menu.add_command(label="Rename Formation", command=self.callbacks['formation->rename_formation'])
+        self.formations_menu.add_command(label="Delete Formation", command=self.callbacks['formation->delete_formation'])
+        self.formations_menu.add_command(label="Swap Ships", command=self.callbacks['formation->swap_ships'])
+        self.add_cascade(label="Formations", menu=self.formations_menu)
 #        self.parent.config(menu=self.menu_bar)
 
     def create_slips_menu(self):
@@ -104,6 +125,7 @@ class MainMenu(tk.Menu):
         self.slips_menu.add_command(label="Build Ship", command=self.on_build_ship_menu_clicked)
         self.slips_menu.add_command(label="Convert_Ship", command=self.on_convert_ship_menu_clicked)
         self.slips_menu.add_command(label="Repair Ship", command=self.on_repair_ship_menu_clicked)
+        self.slips_menu.add_command(label="Scrap Ship", command=self.on_scrap_ship_menu_clicked)
         self.slips_menu.add_command(label="Build Slip", command=self.on_build_slip_menu_clicked)
         self.slips_menu.add_command(label="Enlarge Slip", command=self.on_enlarge_slip_menu_clicked)
         self.add_cascade(label="Slips", menu=self.slips_menu)
@@ -144,9 +166,11 @@ class MainMenu(tk.Menu):
         self.combo3.current(newindex=index)
 
     def on_about_menu_clicked(self):
-        messagebox.showinfo("Clive Essery's WW2 Rules",
+        messagebox.showinfo("Clive Essery's 1940 Global Campaign",
                             """Programme to aid playing the game
-                               Only the Battle Part is partially working at the moment""")
+                               Only the Battle Part is partially working at the moment,
+                               though you can build a new formation if needed,
+                               other parts will be added as I get the opportunity""")
 
 # Files click commands
     def on_open_builds_menu_clicked(self):
@@ -156,6 +180,8 @@ class MainMenu(tk.Menu):
         self.label3["text"] = self.combo3.get()
         
     def on_open_classes_menu_clicked(self):
+        messagebox.showinfo("Clive Essery's 1940 Global Campaign",
+                            """This Option is not currently working""")
         pass
 
     def on_save_builds_menu_clicked(self):
@@ -164,46 +190,44 @@ class MainMenu(tk.Menu):
         self.combo3.set('BatRon2')
        
     def on_save_fleets_menu_clicked(self):
+        messagebox.showinfo("Clive Essery's 1940 Global Campaign",
+                            """This Option is not currently working""")
         pass
 
     def on_exit_menu_clicked(self):
-        pass
-
-# Fleets menu clicked commands
-    def on_build_fleets_menu_clicked(self):
-        if self.nation_combo.get() == "Albion":
-           self.pair2_set("Fleet",('BatGrp','CarGrp1','CarGrp2','CarGrp3','CvyGrp1',
-                                   'CvyGrp2','CvyGrp3'),4)
-        if self.nation_combo.get() == "Scandinavia":
-           self.pair2_set("Fleet",('BatGrpS','BatGrpH','BatGrpN','BatGrpD','CarGrpS','CarGrpH',
-                                   'CarGrpN','CarGrpD','CvyGrpS','CvyGrpH','CvyGrpN','CvyGrpD'),4)
-	
-    def on_join_fleets_menu_clicked(self):
-        pass
-
-    def on_break_fleets_menu_clicked(self):
-        pass
-
-    def on_execute_movement_menu_clicked(self):
-        pass
-
-    def on_engage_enemy_menu_clicked(self):
+        messagebox.showinfo("Clive Essery's 1940 Global Campaign",
+                            """This Option is not currently working""")
         pass
 
 # Slips menu clicked commands
     def on_build_ship_menu_clicked(self):
+        messagebox.showinfo("Clive Essery's 1940 Global Campaign",
+                            """This Option is not currently working""")
         pass
 
     def on_convert_ship_menu_clicked(self):
+        messagebox.showinfo("Clive Essery's 1940 Global Campaign",
+                            """This Option is not currently working""")
         pass
 
     def on_repair_ship_menu_clicked(self):
+        messagebox.showinfo("Clive Essery's 1940 Global Campaign",
+                            """This Option is not currently working""")
+        pass
+
+    def on_scrap_ship_menu_clicked(self):
+        messagebox.showinfo("Clive Essery's 1940 Global Campaign",
+                            """This Option is not currently working""")
         pass
 
     def on_build_slip_menu_clicked(self):
+        messagebox.showinfo("Clive Essery's 1940 Global Campaign",
+                            """This Option is not currently working""")
         pass
 
     def on_enlarge_slip_menu_clicked(self):
+        messagebox.showinfo("Clive Essery's 1940 Global Campaign",
+                            """This Option is not currently working""")
         pass
 
 # Battle menu clicked commands
@@ -219,6 +243,8 @@ class MainMenu(tk.Menu):
         
 # edit menu clicked commands
     def on_preference_menu_clicked(self):
+        messagebox.showinfo("Clive Essery's 1940 Global Campaign",
+                            """This Option is not currently working""")
         pass
 
     def create_canvas(self):
@@ -262,10 +288,957 @@ class MainMenu(tk.Menu):
         return (x, y)
 
 # routines to be called from Application:
-class BuildFormation(ttk.Frame):
+##################
+# WORLD'S routines
+##################
+class SelectWorld(ttk.Frame):
+    # display a combobox to select the world from the available ones
+    
+    def __init__(self, parent, fields, callbacks, *args, **kwargs):
+        super().__init__(parent, *args, **kwargs)
+        print('enter vie:SelectWorld.init')
+        self.callbacks = callbacks
+        self.fields = fields
+
+        # A dict to keep track of input widgets
+        self.inputs = {}
+
+        # setup the first panel - for the input info
+        self.panel1 = tk.LabelFrame(
+            self,
+            text="Select World",
+            padx=10,
+            pady=10
+        )
+        self.panel1.grid(row=0,column=0, sticky='NW')
+
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure(0, weight=1)
+
+        # status bar
+        self.statusbar = ttk.LabelFrame(
+            self,
+            text='Status')
+        self.status = tk.Label(
+            self.statusbar,
+            text='Waiting for User to Select World')
+        self.status.grid(row=0, column=0, sticky='we')
+        self.statusbar.grid(row=2, column = 0, sticky="we", padx=10)
+
+        print('exit vie:SelectWorld.init')
+        
+    def select_world_info(self, worlds=[]):
+        ########################################################################
+        # setup the combo box for possible Worlds
+        ########################################################################
+        print('enter vie:select_world_info')
+        self.worlds = worlds
+        print('worlds = ', self.worlds)
+
+        # this should be a combo box with the options for the Worlds
+        self.world = tk.StringVar(value=self.worlds[0])
+        self.inputs['Worlds'] = wid.LabelInput(
+            self.panel1, "Worlds",
+            input_class = wid.ValidatedCombobox,
+            input_var = self.world,
+            input_args = {'values':self.worlds, 'width': 20},
+            field_spec = {'req': True, 'type': wid.FT.integer}, 
+            label_args={'style': 'RecordInfo.TLabel'}
+        )
+        self.inputs['Worlds'].grid(row=0, column=1)
+
+        # The finish button
+        self.world_selected_button = ttk.Button(
+            self.panel1,
+            text = "Finish",
+            command = self.select_world_on_finish)
+        self.world_selected_button.grid(sticky="e", row=0, column=3, padx=10)
+
+    def select_world_on_finish(self):
+        print("enter vie:select_world_on_finish")
+        print('selection ',self.inputs['Worlds'].get())
+        self.selected_world = self.inputs['Worlds'].get()
+
+        print('Selected World is:', self.selected_world)
+        
+        print("exit vie:select_world_on_finish")
+        self.callbacks['fleet->save_world'](self.selected_world)
+
+##################
+# NATION'S routines
+##################
+class SelectNation(ttk.Frame):
+    # display a combobox to select the Nation and an indicator of whether the Player or the Neutral forces are involved
+    
+    def __init__(self, parent, fields, callbacks, *args, **kwargs):
+        super().__init__(parent, *args, **kwargs)
+        print('enter vie:SelectNation.init')
+        self.callbacks = callbacks
+        self.fields = fields
+
+        # A dict to keep track of input widgets
+        self.inputs = {}
+
+        # setup the first panel - for the input info
+        self.panel1 = tk.LabelFrame(
+            self,
+            text="Select Nation, and whether Player or Neutral Forces are involved",
+            padx=10,
+            pady=10
+        )
+        self.panel1.grid(row=0,column=0, sticky='NW')
+
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure(0, weight=1)
+
+        # status bar
+        self.statusbar = ttk.LabelFrame(
+            self,
+            text='Status')
+        self.status = tk.Label(
+            self.statusbar,
+            text='Waiting for User to Select Nation')
+        self.status.grid(row=0, column=0, sticky='we')
+        self.statusbar.grid(row=2, column = 0, sticky="we", padx=10)
+
+        print('exit vie:Select_Nation.init')
+        
+    def select_nation_info(self, world = "", nations=[]):
+        ########################################################################
+        # setup the combo boxes for Nation and the checkbox for Neutral
+        ########################################################################
+        print('enter vie:select_nation_info')
+        self.nations = nations
+        print('nations = ', self.nations)
+
+        # this should be a label with the world entered
+        self.world = world
+
+        self.worldinfo = ttk.Label(
+            self.panel1,
+            text='World Selected = ' + str(self.world),
+            width = len(self.world) + 22)
+        self.worldinfo.grid(row=0, column=0, sticky='NW')
+        
+        # this should be a combo box with the options for the Nations
+        self.nation = tk.StringVar(value=self.nations[0])
+        self.inputs['Nations'] = wid.LabelInput(
+            self.panel1, "Nations",
+            input_class = wid.ValidatedCombobox,
+            input_var = self.nation,
+            input_args = {'values':self.nations, 'width': 20},
+            field_spec = {'req': True, 'type': wid.FT.integer}, 
+            label_args={'style': 'RecordInfo.TLabel'}
+        )
+        self.inputs['Nations'].grid(row=0, column=1)
+
+        # this should be a checkbutton to indicate that the formation is a neutral one
+        self.plyr_neut = tk.BooleanVar(value=False)
+        self.inputs['plyr_neut'] = wid.LabelInput(
+            self.panel1,
+            "Player (Neutral)",
+            input_class=ttk.Checkbutton,
+            input_var=self.plyr_neut)
+        self.inputs['plyr_neut'].grid(row=0,column=2, sticky="w")
+        print('vie:select_nation_info.plyr_neut')
+        
+        # The finish button
+        self.nation_selected_button = ttk.Button(
+            self.panel1,
+            text = "Finish",
+            command = self.select_nation_on_finish)
+        self.nation_selected_button.grid(sticky="e", row=0, column=3, padx=10)
+
+    def select_nation_on_finish(self):
+        print("enter vie:select_nation_on_finish")
+        print('selection ',self.inputs['Nations'].get())
+        self.selected_nation = self.inputs['Nations'].get()
+
+        print('Selected Nation is:', self.selected_nation)
+        
+        self.status.config(text="Selected World = " + self.world +"  Selected Nation = " + self.selected_nation)
+
+        print("exit vie:select_nation_on_finish")
+        self.callbacks['fleet->save_nation'](self.selected_nation, self.plyr_neut)
+
+###################
+# OBJECT'S routines
+###################
+
+class objects(ttk.Frame):
+    """ Objects routines for the Nation that has already been selected
+        could be used for Fleets, Formations or Armies - note, ships and
+        brigades need special routines that are separate from this """
+
+    swap_subobjects_column_defs = {
+        '#0': {'label': 'Row', 'anchor': tk.W, 'width': 35, 'stretch': False},
+        'Data': {'label': "replace", 'width': 80, 'stretch': False},
+#        'Notes': {'label': 'Notes', 'width': 150, 'stretch': False},
+#        'Locn': {'label': 'Locn', 'width': 75, 'stretch': False},
+#        'BestSpd': {'label': 'BestSpd', 'width': 50, 'stretch': False},        
+#        'currblock': {'label': 'CurrBlk', 'width': 55, 'stretch': False},
+#        'blockfill': {'label': 'BlkFill', 'width': 55, 'stretch': False},
+#        'blocksize': {'label': 'BlkSize', 'width': 55, 'stretch': False},
+#        'tndamage': {'label': 'TNDmg', 'width': 55, 'stretch': False}
+    }
+    default_width = 12
+    default_minwidth = 12
+    default_anchor = tk.W
+
+    def __init__(self, parent, fields, callbacks, *args, **kwargs):
+        super().__init__(parent, *args, **kwargs)
+        print('enter vie:objects.init')
+        self.callbacks = callbacks
+        self.fields = fields
+
+        # A dict to keep track of input widgets
+        self.inputs = {}
+
+        # setup the first panel - for the input info
+        self.panel1 = tk.LabelFrame(
+            self,
+            text="",
+            padx=10,
+            pady=10
+        )
+        self.panel1.grid(row=0,column=0, sticky='NW')
+
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure(0, weight=1)
+
+        # setup the second panel for the Tree Display
+        self.panel2 = tk.LabelFrame(
+            self,
+            text="Swap subobjects between the objects, or rearrange them",
+            padx=10,
+            pady=10
+        )
+        self.panel2.grid(row=1,column=0, sticky='NW')
+
+        # status bar
+        self.statusbar = ttk.LabelFrame(
+            self,
+            text='Status')
+        self.status = tk.Label(
+            self.statusbar,
+            text='Waiting for User to select object and any other entries')
+        self.status.grid(row=0, column=0, sticky='we')
+        self.statusbar.grid(row=2, column = 0, sticky="we", padx=10)
+
+        print('exit vie:objects.init')
+
+    def object_info(self, title="",world="", nation="", objects_file={}, object = "", subobject = ""):
+        ########################################################################
+        # setup the combo boxes for the Fleets in the chosen Nation
+        # note the Fleet may be the one in Port for commissioned but unassigned
+        # ships and the entry box for the fleet name which must be unique 
+        # for that Nation
+        # WARNING: fleets below is the LIST of fleets not the fleets file
+        # WARNING: identical code exists in the Formations routines - EDIT BOTH
+        ########################################################################
+        print('enter vie:formation_info')
+        self.objects_file = objects_file
+        self.objects = list(objects_file)
+        self.object = object
+        self.subobject = subobject
+        print(self.objects)
+        print("world = ", world, '  nation = ', nation, "  objects = ", self.objects)
+
+        # this should be comments to show selected world
+        self.worldinfo = ttk.Label(
+            self.panel1,
+            text='World Selected = ' + str(world),
+            width = len(world) + 22)
+        self.worldinfo.grid(row=0, column=0, sticky='NW')
+        
+        # this should be comments to show selected nation
+        self.nationinfo = ttk.Label(
+            self.panel1,
+            text='Nation Selected = ' + str(nation),
+            width = len(nation) + 22)
+        self.nationinfo.grid(row=0, column=1, sticky='NW')
+        
+        # this should be a combo box with the list of the existing objects
+        self.object_var = tk.StringVar(value=self.objects[0])
+        self.inputs[self.object + 's'] = wid.LabelInput(
+            self.panel1, self.object + "s",
+            input_class = wid.ValidatedCombobox,
+            input_var = self.object_var,
+            input_args = {'values':self.objects, 'width': 20},
+            field_spec = {'req': True, 'type': wid.FT.integer}, 
+            label_args={'style': 'RecordInfo.TLabel'}
+        )
+        self.inputs[self.object + 's'].grid(row=1, column=0)
+
+    def new_object_info(self):
+        #############################################
+        # the extra widgets specific to the new_object
+        # version of this window
+        #############################################
+        print('enter vie:new_' + self.object + '_info')
+        self.panel1.text = "Select " + self.object + " to build New " + self.object + " close to, and the Unique New " 
+        self.panel1.text += str(object) + " Name"
+        # this should be an entry for the New object Name
+        self.object_name = tk.StringVar(value="")
+        self.inputs[self.object + 'Name'] = wid.LabelInput(
+            self.panel1, self.object + " Name",
+            field_spec = {'req': True, 'type': wid.FT.string},
+            input_var = self.object_name,
+            input_args={'width': 20},
+            label_args={'style': 'RecordInfo.TLabel'}
+        )
+        self.inputs[self.object + 'Name'].grid(row=1, column=1)
+
+        # The finish button
+        self.finish_button = ttk.Button(
+            self.panel1,
+            text = "Finish",
+            command = self.finish_new_object)
+        self.finish_button.grid(sticky="e", row=2, column=1, padx=10)
+
+        text_value = "Select the " + self.object + " the New one is with and  "
+        text_value += "Enter New Unique " + self.object + " Name "
+        text_value += "then click 'Finish' button"
+        self.status.config(text= text_value)
+        print(self.object, self.object_name, self.objects)
+        print('exit vie:new_' + self.object + '_info')
+        return()
+
+    def finish_new_object(self):
+        ##########################################################
+        # the object has been selected and new object name entered
+        # pass the information back to the application for storage
+        # WARNING: identical code exists in the Formations routines - EDIT BOTH
+        ##########################################################
+        print('enter vie:finish_new_' + self.object)
+        self.selected_object = self.inputs[self.object + 's'].get()
+
+        print('Selected ' + self.object + 'is:', self.selected_object)
+        self.new_object_name = str(self.inputs[self.object + "Name"].get())
+        self.status.config(text="Selected " + self.object + " = " + self.selected_object + "  New " + self.object + " = " +
+                           self.new_object_name)
+
+        print(self.selected_object, self.new_object_name, self.objects_file)
+        
+        self.clean_up_after_finishing(self.panel1)		# tidy up the display after finishing the command
+        print('exit vie:finish_new_' + self.object)
+
+        if self.object == "fleet":
+            self.callbacks['fleet->complete_new_fleet'](self.selected_object, self.new_object_name)
+        elif self.object == "formation":
+            self.callbacks['formation->complete_new_formation'](self.selected_object, self.new_object_name)
+#        elif self.object == "army":
+#            self.callbacks['army->complete_new_army'](self.selected_object, self.new_object_name)
+            
+
+    def rename_object_info(self):
+        #################################################
+        # the extra widgets specific to the rename_fleet
+        # version of this window
+        # WARNING: identical code exists in the Formations routines - EDIT BOTH
+        #################################################
+        print('enter vie:rename_' + self.object + '_info')
+
+        self.panel1.text = "Select old " + self.object + " that is to be Renamed, and Unique " + self.object + " Name"
+        # this should be an entry for the New Object Name
+        self.object_name = tk.StringVar(value="")
+        self.inputs[self.object + 'Name'] = wid.LabelInput(
+            self.panel1, self.object + " Name",
+            field_spec = {'req': True, 'type': wid.FT.string},
+            input_var = self.object_name,
+            input_args={'width': 20},
+            label_args={'style': 'RecordInfo.TLabel'}
+        )
+        self.inputs[self.object + 'Name'].grid(row=1, column=1)
+
+        # The finish button
+        self.finish_button = ttk.Button(
+            self.panel1,
+            text = "Finish",
+            command = self.finish_rename_object)
+        self.finish_button.grid(sticky="e", row=2, column=1, padx=10)
+
+        text_val = "Select Fleet to be renamed. "
+        text_val += "Enter New Unique Fleet Name "
+        text_val += "then click 'Finish' button"
+        self.status.config(text= text_val)
+        print('exit vie:rename_' + self.object + '_info')
+        print('exit vie:rename_' + 'object' + '_info')
+        return()
+
+    def finish_rename_object(self):
+        ####################################################
+        # the object has been selected and new object name entered
+        # pass the information back to the application for storage
+        ####################################################
+        print('enter vie:finish_rename_' + self.object)
+        self.selected_object = self.inputs[self.object + 's'].get()
+
+        print('Selected ' + self.object + 'is:', self.selected_object)
+        self.new_object_name = str(self.inputs[self.object + "Name"].get())
+        self.status.config(text="Selected " + self.object + " = " + self.selected_object +
+                           " New " + self.object + " = " + self.new_object_name)
+
+        print(self.selected_object, self.new_object_name, self.objects_file)    
+
+        self.clean_up_after_finishing(self.panel1)		# tidy up the display after finishing the command
+        print('exit vie:finish_rename_' + self.object)
+
+        if self.object == 'fleet':
+            self.callbacks['fleet->complete_rename_fleet'](self.selected_object, self.new_object_name)
+        elif self.object == 'formation':
+            self.callbacks['formation->complete_rename_formation'](self.selected_object, self.new_object_name)
+#        elif self.object == 'army':
+#            self.callbacks['army->complete_rename_army'](self.selected_object, self.new_object_name)
+        else:
+            print('Error in finish_rename_object - object is incorrect', self.object)
+
+    def delete_object_info(self):
+        #################################################
+        # the extra widgets specific to the delete_object
+        # version of this window
+        # WARNING: identical code exists in the Formations routines - EDIT BOTH
+        #################################################
+        print('enter vie:delete_' + self.object + '_info')
+
+        self.panel1.text = "Select " + self.object + " to be Deleted, and click Finish button"
+
+        # The finish button
+        self.finish_button = ttk.Button(
+            self.panel1,
+            text = "Finish",
+            command = self.finish_delete_object)
+        self.finish_button.grid(sticky="e", row=2, column=1, padx=10)
+
+        text_val = "Select the Fleet "
+        text_val += "Name that is to be deleted "
+        text_val += "then click 'Finish' button"
+        self.status.config(text= text_val)
+        print('exit vie:delete_' + self.object + '_info')
+        return()
+
+    def load_delete_fleet(self):
+#		get the selected fleet, setup the fleets combobox from the selected fleet
+        print('enter vie:load_delete_' + self.object)
+        selected_object = self.inputs[self.object + 's'].get()
+        print('Selected ' + self.object + ' is:', selected_object)
+        print(self.object + 's', self.objects_file[selected_object])
+
+        print('exit vie:load_delete_' + self.object + 's')
+        return()
+        
+    def finish_delete_object(self):
+        ####################################################
+        # the object to be deleted has been selected 
+        # pass the information back to the application for storage
+        ####################################################
+        print('enter vie:finish_delete_' + self.object)
+
+        self.object_name_to_delete = str(self.inputs[self.object + "s"].get())
+        print(self.object + ' Name to delete ', self.object_name_to_delete)
+        self.status.config(text=self.object + " name to delete = " + self.object_name_to_delete)
+
+        print(self.object_name_to_delete, self.objects_file)
+
+        self.clean_up_after_finishing(self.panel1)		# tidy up the display after finishing the command
+        print('exit vie:finish_delete_' + self.object)
+
+        if self.object == 'fleet':
+            self.callbacks['fleet->complete_delete_fleet'](self.object_name_to_delete)
+        elif self.object == 'formation':
+            self.callbacks['formation->complete_delete_formation'](self.object_name_to_delete)
+#        elif self.object == 'army':
+#            self.callbacks['army->complete_delete_army'](self.object_name_to_delete)
+        else:
+            print('Error in finish_delete_object - object is incorrect', self.object)
+            
+
+    def swap_subobjects_panel1(self, objects_file, object = "", subobject = ""):
+        ###################################################################
+        # in Frame1, need to add combo for object1 in col 1, combo for object2 in col 5 on row 0
+        # then "load object1" button in col 0 and "Load object2" button in Col 3 and Finish Button in Col 5 on row 1
+        # WARNING: identical code exists in the Formations routines - EDIT BOTH
+        ###################################################################
+        
+        # this should be an entry for the first object Name
+        self.objects_file = objects_file
+        self.objects = list(objects_file)
+        self.object = object
+        self.subobject = subobject
+        print("enter vie:swap_" + self.subobject + "s_panel1")
+        self.panel1.text = "Select the " + self.object + "s to swap " + self.subobject + "s between"
+        print(self.objects)
+        self.object_name1 = tk.StringVar(value=self.objects[0])
+        self.inputs[self.object + '1'] = wid.LabelInput(
+            self.panel1, self.object + "1",
+            input_class = wid.ValidatedCombobox,
+            input_var = self.object_name1,
+            input_args = {'values':self.objects, 'width': 20},
+            field_spec = {'req': True, 'type': wid.FT.integer}, 
+            label_args={'style': 'RecordInfo.TLabel'}
+        )
+        self.inputs[self.object + '1'].grid(row=0, column=1)
+
+        # this should be an entry for the second object Name
+        self.object_name2 = tk.StringVar(value=self.objects[1])
+        self.inputs[self.object + '2'] = wid.LabelInput(
+            self.panel1, self.object + "2",
+            input_class = wid.ValidatedCombobox,
+            input_var = self.object_name2,
+            input_args = {'values':self.objects, 'width': 20},
+            field_spec = {'req': True, 'type': wid.FT.integer}, 
+            label_args={'style': 'RecordInfo.TLabel'}
+        )
+        self.inputs[self.object + '2'].grid(row=0, column=5)
+            
+        # The Load object1 button
+        self.load_object1_button = ttk.Button(
+            self.panel1,
+            text = "Load " + self.object + "1",
+            command = self.load_object1)
+        self.load_object1_button.grid(sticky="e", row=1, column=0, padx=10)
+
+        # The Load object2 button
+        self.load_object2_button = ttk.Button(
+            self.panel1,
+            text = "Load " + self.object + "2",
+            command = self.load_object2)
+        self.load_object2_button.grid(sticky="e", row=1, column=3, padx=10)
+
+        # The finish button
+        self.finish_button = ttk.Button(
+            self.panel1,
+            text = "Finish",
+            command = self.finish_swap_subobjects)
+        self.finish_button.grid(sticky="e", row=1, column=5, padx=10)
+
+        self.status.config(text="Select " + self.object + "1, click the 'Load " + self.object + "1'" +
+                                " button, " +
+                                "If desired select " + self.object + "2 and click the Load " + self.object + "2 button " +
+                                "then click 'Finish' button when all changes complete")
+        print("exit vie:swap_" + self.subobject + "s_panel1")
+        return()
+
+    def load_object1(self):
+        print('enter vie:load_' + self.object + '1')
+        self.object1 = self.inputs[self.object + '1'].get()
+        print(self.object + '1 ', self.object1, type(self.object1))
+        print(self.object + 's file ',self.objects_file, type(self.objects_file))
+        print(self.subobject, self.subobject + 's')
+        print(self.objects_file[self.object1])
+        print(self.subobject + 's', self.objects_file[self.object1][self.subobject + 's'])
+        self.object1_subobjects = self.objects_file[self.object1][self.subobject + 's']
+        print(self.object + '1 ' + self.subobject + 's ',self.object1_subobjects)
+        # load the treeview in Frame2 (2_1)
+        self.populate_swap_subobjects_panel2_1(self.object1_subobjects)
+        print('exit vie:load_' + self.object + '1')
+        
+    def load_object2(self):
+        print('enter vie:load_' + self.object + '2')
+        self.object2 = self.inputs[self.object + '2'].get()
+        print(self.object + '2 ', self.object2, type(self.object2))
+        self.object2_subobjects = self.objects_file[self.object2][self.subobject + 's']
+        print(self.object + '2 ' + self.subobject + 's ',self.object2_subobjects)
+        # load the treeview in Frame2 (2_3)
+        self.populate_swap_subobjects_panel2_3(self.object2_subobjects)
+        
+        print('exit vie:load_' + self.object + '2')
+        
+    def finish_swap_subobjects(self):
+        print('enter vie:finish_swap_' + self.subobject + 's')
+        
+        self.clean_up_after_finishing(self.panel1)		# tidy up the display after finishing the command
+        self.clean_up_after_finishing(self.panel2)		# tidy up the display after finishing the command
+    
+        print('exit vie:finish_swap_' + self.subobject + 's')
+        if self.object == 'fleet':
+            self.callbacks['fleet->complete_swap_formations'](self.object1, self.swap_subobjects_panel2_1.subobject_list,
+                                                              self.object2, self.swap_subobjects_panel2_3.subobject_list)
+        elif self.object == 'formation':
+            self.callbacks['formation->complete_swap_ships'](self.object1, self.swap_subobjects_panel2_1.subobject_list,
+                                                             self.object2, self.swap_subobjects_panel2_3.subobject_list)
+#        elif self.object == 'army':
+#            self.callbacks['army->complete_swap_brigades'](self.object1, self.swap_subobjects_panel2_1.subobject_list,
+#                                                           self.object2, self.swap_subobjects_panel2_3.subobject_list)
+        else:
+            print('Error - invalid object-' + self.object + ' supplied to swap subobjects')
+        
+
+    def swap_subobjects_panel2(self, tree_text):
+        # display frame2 to put up the two objects and the up/down (on left side and right side) and
+        # the left/right buttons to swap between the two objects.
+        # buildforminfo section - sets up the display for the tree info for the subobjects
+        # ancestor is the label/labelframe in which this section will be displayed
+        # not sure a command is needed in this case, a button terminates the selection process
+        # BIG NOTE - to setup the correct command for the binding on the list, you need to set a variable:
+        # self.object_command to be the self... function that handles the command before calling this routine
+        # eg self.dispship_command = self.dispship_on_open_record
+
+        print('enter vie:swap_' + self.subobject + 's_panel2')
+
+        self.frame2_0 = tk.LabelFrame(
+            self.panel2,
+            text="",
+            width=20,
+            padx=0,
+            pady=0)
+        # note we are going to put the "^" button on Row 1 and the "v" button on row 2
+        # these weights force them to be in the middle of the frame vertically
+        self.frame2_0.rowconfigure(0, weight=49)
+        self.frame2_0.rowconfigure(1, weight=1)
+        self.frame2_0.rowconfigure(2, weight=1)
+        self.frame2_0.rowconfigure(3, weight=49)
+        self.frame2_0.grid(sticky="nsew", row=0, column=0)
+        
+        # The Left Up button
+        self.left_up_button = ttk.Button(
+            self.frame2_0,
+            text = "^",
+            width = 2,
+            command = self.left_up_clicked)
+        self.left_up_button.grid(sticky="nsew", row=1, column=0)
+
+        # The Left Down button
+        self.left_down_button = ttk.Button(
+            self.frame2_0,
+            text = "v",
+            width = 2,
+            command = self.left_down_clicked)
+        self.left_down_button.grid(sticky="nsew", row=2, column=0)
+       
+        self.frame2_1 = tk.LabelFrame(
+            self.panel2,
+            text=tree_text,
+            width=155,
+            padx=10,
+            pady=10)
+        self.swap_subobjects_panel2_1 = ttk.Treeview(
+            self.frame2_1,
+            columns=list(self.swap_subobjects_column_defs.keys())[1:],
+            selectmode='extended'                        # user can select multiple items
+        )
+
+        # configure scrollbar for the treeview
+        self.scrollbar1 = ttk.Scrollbar(
+            self.frame2_1,
+            orient=tk.VERTICAL,
+            command=self.swap_subobjects_panel2_1.yview
+        )
+        self.swap_subobjects_panel2_1.configure(yscrollcommand=self.scrollbar1.set)
+        self.swap_subobjects_panel2_1.grid(row=0, column=1, sticky='W')
+        self.scrollbar1.grid(row=0, column=2, sticky='NSW')
+        self.frame2_1.grid(row=0, column=1, stick='W')
+
+        # Configure treeview columns
+        for name, definition in self.swap_subobjects_column_defs.items():
+            label = self.subobject + 's'    # definition.get('label', '')
+            anchor = definition.get('anchor', self.default_anchor)
+            minwidth = definition.get('minwidth', self.default_minwidth)
+            width = definition.get('width', self.default_width)
+            stretch = definition.get('stretch', False)
+            print("name ", name)
+            self.swap_subobjects_panel2_1.heading(name, text=label, anchor=anchor)
+            self.swap_subobjects_panel2_1.column(name, anchor=anchor, minwidth=minwidth,
+                                 width=width, stretch=stretch)
+
+        self.swap_subobjects_panel2_1.selected_subobjects = []              # used in record_selection1 to store selected formations
+        self.swap_subobjects_panel2_1.bind('<<TreeviewSelect>>', self.record_selection1)
+
+        self.frame2_2 = tk.LabelFrame(
+            self.panel2,
+            text="",
+            width=60,
+            padx=0,
+            pady=0)
+        # these weights allow the Left/Right buttons to be placed in the middle vertically
+        self.frame2_2.rowconfigure(0, weight=50)
+        self.frame2_2.rowconfigure(1, weight=1)
+        self.frame2_2.rowconfigure(2, weight=50)
+        self.frame2_2.grid(sticky="nsew", row=0, column=2)
+        
+        # The Left button
+        self.left_button = ttk.Button(
+            self.frame2_2,
+            text = "<",
+            width = 2,
+            command = self.left_clicked)
+        self.left_button.grid(sticky="nsew", row=1, column=0)
+
+        # The right button
+        self.right_button = ttk.Button(
+            self.frame2_2,
+            text = ">",
+            width = 2,
+            command = self.right_clicked)
+        self.right_button.grid(sticky="nsew", row=1, column=1)
+
+        self.frame2_3 = tk.LabelFrame(
+            self.panel2,
+            text = self.subobject + "s for " + self.object + " 2",
+            width=155,
+            padx=10,
+            pady=10)
+        self.swap_subobjects_panel2_3 = ttk.Treeview(
+            self.frame2_3,
+            columns=list(self.swap_subobjects_column_defs.keys())[1:],
+            selectmode='extended'                        # user can select multiple items
+        )
+
+        # configure scrollbar for the treeview
+        self.scrollbar2 = ttk.Scrollbar(
+            self.frame2_3,
+            orient=tk.VERTICAL,
+            command=self.swap_subobjects_panel2_3.yview
+        )
+        self.swap_subobjects_panel2_3.configure(yscrollcommand=self.scrollbar2.set)
+        self.swap_subobjects_panel2_3.grid(row=0, column=1, sticky='W')
+        self.scrollbar2.grid(row=0, column=2, sticky='NSW')
+        self.frame2_3.grid(row=0, column=3, stick='W')
+
+        # Configure treeview columns
+        for name, definition in self.swap_subobjects_column_defs.items():
+            label = self.subobject + 's'    # definition.get('label', '')
+            anchor = definition.get('anchor', self.default_anchor)
+            minwidth = definition.get('minwidth', self.default_minwidth)
+            width = definition.get('width', self.default_width)
+            stretch = definition.get('stretch', False)
+            self.swap_subobjects_panel2_3.heading(name, text=label, anchor=anchor)
+            self.swap_subobjects_panel2_3.column(name, anchor=anchor, minwidth=minwidth,
+                                 width=width, stretch=stretch)
+
+        self.swap_subobjects_panel2_3.selected_subobjects = []      # used in record_selection2 to store selected subobjects
+        self.swap_subobjects_panel2_3.bind('<<TreeviewSelect>>', self.record_selection2)
+
+        self.frame2_4 = tk.LabelFrame(
+            self.panel2,
+            text="",
+            width=20,
+            padx=0,
+            pady=0)
+        # note we are going to put the "^" button on Row 1 and the "v" button on row 2
+        # these weights force them to be in the middle of the frame vertically
+        self.frame2_4.rowconfigure(0, weight=49)
+        self.frame2_4.rowconfigure(1, weight=1)
+        self.frame2_4.rowconfigure(2, weight=1)
+        self.frame2_4.rowconfigure(3, weight=49)
+        self.frame2_4.grid(sticky="nsew", row=0, column=4)
+        
+        # The right Up button
+        self.right_up_button = ttk.Button(
+            self.frame2_4,
+            text = "^",
+            width = 2,
+            command = self.right_up_clicked)
+        self.right_up_button.grid(sticky="nsew", row=1, column=0)
+
+        # The right Down button
+        self.right_down_button = ttk.Button(
+            self.frame2_4,
+            text = "v",
+            width = 2,
+            command = self.right_down_clicked)
+        self.right_down_button.grid(sticky="nsew", row=2, column=0)
+       
+        print('exit vie:swap_' + self.subobject + 's_panel2')
+        
+    def setup_selections(self, panel):
+        # setup the selections list for the relevant panel
+        print('enter vie:setup selections')
+        selections = list(panel.selection())
+        print('selections ', selections, ' type selections ', type(selections))
+        # ensure that the selected_subobjects list is empty before reloading it
+        panel.selected_subobjects.clear()
+        while len(selections) > 0:
+            selected_id = int(selections[0])
+            next_selection = list(panel.subobject_list)[selected_id]
+            panel.selected_subobjects.append(next_selection)
+            del selections[0]
+        print('selected_' + self.subobject + 's at end ',panel.selected_subobjects)
+        print('exit vie:setup selections')
+
+    def left_up_clicked(self):
+        # for each subobject in object1 selected list
+        # move it up one spot
+        # re-populate object1
+        print('enter vie:left_up_clicked')
+        self.setup_selections(self.swap_subobjects_panel2_1)
+        print(self.subobject + 's list ', self.swap_subobjects_panel2_1.subobject_list)
+        self.up_clicked(self.swap_subobjects_panel2_1)
+        # repopulate list from the new order
+        self.populate_swap_subobjects_panel2_1(self.swap_subobjects_panel2_1.subobject_list)
+        print(self.subobject + 's list at end ', self.swap_subobjects_panel2_1.subobject_list)
+        print('exit vie:left_up_clicked')
+        
+    def up_clicked(self, panel):
+        for subobject in panel.selected_subobjects:
+            index = panel.subobject_list.index(subobject)
+            # note, can't move the first item up one level
+            if index > 0:
+                item = panel.subobject_list.pop(index)        # remove item from list but store it
+                panel.subobject_list.insert(index - 1, item)  # replace item into list one level higher
+        
+    def left_down_clicked(self):
+        # for each subobject in object1 selected list
+        # move it down one spot
+        # re-populate object1
+        print('enter vie:left_down_clicked')
+        self.setup_selections(self.swap_subobjects_panel2_1)
+        print(self.subobject + 's list ', self.swap_subobjects_panel2_1.subobject_list)
+        self.down_clicked(self.swap_subobjects_panel2_1)
+        # repopulate list from the new order
+        self.populate_swap_subobjects_panel2_1(self.swap_subobjects_panel2_1.subobject_list)
+        print(self.subobject + 's list at end ', self.swap_subobjects_panel2_1.subobject_list)
+        print('exit vie:left_down_clicked')
+        
+    def down_clicked(self, panel):
+        # for each subobject in object1 selected list
+        # move it down one spot
+        print('enter vie:left_down_clicked')
+        self.setup_selections(panel)
+        print(self.subobject + 's list ', panel.subobject_list)
+        for subobject in panel.selected_subobjects:
+            index = panel.subobject_list.index(subobject)
+            # note, can't move the last item down one level
+            if index < len(panel.subobject_list):
+                item = panel.subobject_list.pop(index)			# remove item from list
+                panel.subobject_list.insert(index + 1, item)	# and add it back in one level lower
+        print(self.subobject + 's list at end ', panel.subobject_list)
+        print('exit vie:left_down_clicked')
+        
+    def record_selection1(self, *args):
+        # save the list of selectors that have been clicked
+        print('enter vie:record_selection1')
+        print('selections ',self.swap_subobjects_panel2_1.selection())
+        print('vie:record_selector ',self.swap_subobjects_panel2_1.selected_subobjects)
+        print('exit vie:record_selection1')
+
+    def populate_swap_subobjects_panel2_1(self,subobject_list1):
+        # load the subobject data into the first treelist in panel2_1
+        print('enter vie:populate_swap_subobjects_panel2_1')
+
+        self.swap_subobjects_panel2_1.subobject_list = subobject_list1
+
+        for row in self.swap_subobjects_panel2_1.get_children():
+            self.swap_subobjects_panel2_1.delete(row)
+
+        rownum = 0
+        print(self.subobject + 's ',self.swap_subobjects_panel2_1.subobject_list)
+        for subobject in self.swap_subobjects_panel2_1.subobject_list:
+            self.form_label = subobject
+            values = (subobject)
+            self.swap_subobjects_panel2_1.insert('', 'end', iid=str(rownum),
+                                     text=str(rownum), values=values)
+            rownum += 1
+        print('swap_subobjects_panel2_1 selected subobjects',self.swap_subobjects_panel2_1.selected_subobjects)
+
+        print('exit vie:populate_swap_subobjects_panel2_1')
+
+    def left_clicked(self):
+        # append subobjects selected in object1 treeview to object2
+        # for each subobject in object1 selected list delete from object1
+        # re-populate object1
+        # re-populate object2
+        print('enter vie:left_clicked')
+        print(self.subobject + ' list at beginning ',self.swap_subobjects_panel2_3.subobject_list)
+        self.setup_selections(self.swap_subobjects_panel2_3)
+        print('vie:left clicked-selected ' + self.subobject + 's ',self.swap_subobjects_panel2_3.selected_subobjects)
+        print(self.subobject + ' list at beginning ',self.swap_subobjects_panel2_1.subobject_list)
+        self.swap_subobjects_panel2_1.subobject_list += self.swap_subobjects_panel2_3.selected_subobjects
+        for subobject in self.swap_subobjects_panel2_3.selected_subobjects:
+            index = self.swap_subobjects_panel2_3.subobject_list.index(subobject)
+            del self.swap_subobjects_panel2_3.subobject_list[index]
+        self.populate_swap_subobjects_panel2_1(self.swap_subobjects_panel2_1.subobject_list)
+        self.populate_swap_subobjects_panel2_3(self.swap_subobjects_panel2_3.subobject_list)
+        print(self.subobject + ' list 2_1 at end ',self.swap_subobjects_panel2_1.subobject_list)
+        print(self.subobject + ' list 2_3 at end ',self.swap_subobjects_panel2_3.subobject_list)
+        print('exit vie:left_clicked')
+        
+    def right_clicked(self):
+        # append subobjects selected in object2 treeview to object1
+        # for each subobject in object2 selected list delete from object2
+        # re-populate object1
+        # re-populate object2
+        print('enter vie:right_clicked')
+        print(self.subobject + ' list at beginning ',self.swap_subobjects_panel2_3.subobject_list)
+        self.setup_selections(self.swap_subobjects_panel2_1)
+        print('selected list at beginning ',self.swap_subobjects_panel2_1.selected_subobjects)
+        self.swap_subobjects_panel2_3.subobject_list += self.swap_subobjects_panel2_1.selected_subobjects
+        for subobject in self.swap_subobjects_panel2_1.selected_subobjects:
+            index = self.swap_subobjects_panel2_1.subobject_list.index(subobject)
+            del self.swap_subobjects_panel2_1.subobject_list[index]
+        self.populate_swap_subobjects_panel2_1(self.swap_subobjects_panel2_1.subobject_list)
+        self.populate_swap_subobjects_panel2_3(self.swap_subobjects_panel2_3.subobject_list)
+        print(self.subobject + ' list 2_1 at end ',self.swap_subobjects_panel2_1.subobject_list)
+        print(self.subobject + ' list 2_3 at end ',self.swap_subobjects_panel2_3.subobject_list)
+        print('exit vie:right_clicked')
+        
+    def record_selection2(self, *args):
+        # save the list of selectors that have been clicked
+        print('enter vie:record_selection2')
+        print('selections ',self.swap_subobjects_panel2_3.selection())
+        # seems to be called sometimes when the selection is empty - defensive coding
+        print('exit vie:record_selection2')
+
+    def populate_swap_subobjects_panel2_3(self,subobject_list2):
+        # load the subobject data into the second treelist in panel2_3
+        print('enter vie:populate_swap_' + self.subobject + 's_panel2_3')
+        self.swap_subobjects_panel2_3.subobject_list = subobject_list2
+
+        for row in self.swap_subobjects_panel2_3.get_children():
+            self.swap_subobjects_panel2_3.delete(row)
+
+        rownum = 0
+        print(self.subobject + 's ',self.swap_subobjects_panel2_3.subobject_list)
+        for subobject in self.swap_subobjects_panel2_3.subobject_list:
+            self.form_label = subobject
+            values = (subobject)
+            self.swap_subobjects_panel2_3.insert('', 'end', iid=str(rownum),
+                                     text=str(rownum), values=values)
+            rownum += 1
+        print('swap_' + self.subobject + 's_panel2_3 selected ' + self.subobject + 's ',
+              self.swap_subobjects_panel2_3.selected_subobjects)
+
+        print('exit vie:populate_swap_' + self.subobject + 's_panel2_3')
+
+    def right_up_clicked(self):
+        print('enter vie:right_up_clicked')
+        self.setup_selections(self.swap_subobjects_panel2_3)
+        print(self.subobject + 's list ', self.swap_subobjects_panel2_3.subobject_list)
+        self.up_clicked(self.swap_subobjects_panel2_3)
+        self.populate_swap_subobjects_panel2_3(self.swap_subobjects_panel2_3.subobject_list)
+        print(self.subobject + 's list at end ', self.swap_subobjects_panel2_3.subobject_list)
+        print('exit vie:right_up_clicked')
+        
+    def right_down_clicked(self):
+        print('enter vie:right_down_clicked')
+        self.setup_selections(self.swap_subobjects_panel2_3)
+        print(self.subobject + 's list ', self.swap_subobjects_panel2_3.subobject_list)
+        self.down_clicked(self.swap_subobjects_panel2_3)
+        self.populate_swap_subobjects_panel2_3(self.swap_subobjects_panel2_3.subobject_list)
+        print(self.subobject + 's list at end ', self.swap_subobjects_panel2_3.subobject_list)
+        print('exit vie:right_down_clicked')
+        
+    def clean_up_after_finishing(self, panel):
+        # clear the panel (variable passed, either self.Panel1 or 2),
+        # its title and status bar
+#        print('widget list b4 ', self.inputs)
+        for widget in panel.winfo_children():
+            widget.destroy()
+        for key, value in list(self.inputs.items()):
+            del self.inputs[key]
+#        print('widget list after ', self.inputs)
+        self.panel1.text = ""
+        self.status.config(text="Select the Next Action you wish to Perform" +
+                                " from the Menus")
+
+######################
+# FORMATION'S routines
+######################
+'''
+class Formations(ttk.Frame):
     """ Build a new Formation for the Nation that has already been selected """
 
-    buildform_column_defs = {
+    swap_ships_column_defs = {
         '#0': {'label': 'Row', 'anchor': tk.W, 'width': 35, 'stretch': False},
         'Ship': {'label': 'Ship', 'width': 80, 'stretch': False},
         'Notes': {'label': 'Notes', 'width': 150, 'stretch': False},
@@ -282,7 +1255,7 @@ class BuildFormation(ttk.Frame):
 
     def __init__(self, parent, fields, callbacks, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
-        print('enter vie:BuildFormation.init')
+        print('enter vie:Formations.init')
         self.callbacks = callbacks
         self.fields = fields
 
@@ -292,7 +1265,7 @@ class BuildFormation(ttk.Frame):
         # setup the first panel - for the input info
         self.panel1 = tk.LabelFrame(
             self,
-            text="Select Nation, Red, Port and Formation Name",
+            text="",
             padx=10,
             pady=10
         )
@@ -304,115 +1277,290 @@ class BuildFormation(ttk.Frame):
         # setup the second panel for the Tree Display
         self.panel2 = tk.LabelFrame(
             self,
-            text="Select All Ships for this Formation",
+            text="Swap Ships between the Formations, or rearrange them",
             padx=10,
             pady=10
         )
         self.panel2.grid(row=1,column=0, sticky='NW')
 
-        print('exit vie:BuildFormation.init')
+        # status bar
+        self.statusbar = ttk.LabelFrame(
+            self,
+            text='Status')
+        self.status = tk.Label(
+            self.statusbar,
+            text='Waiting for User to select Fleet and and any other entries')
+        self.status.grid(row=0, column=0, sticky='we')
+        self.statusbar.grid(row=2, column = 0, sticky="we", padx=10)
 
-    def buildformation_info(self, nations):
+        print('exit vie:NewFormation.init')
+
+    def formation_info(self, title="",world="", nation="", fleets_file={}):
         ########################################################################
-        # setup the combo boxes for Nation and Port, the checkbox for Neutral
-        # and the entry box for the formation name which must be unique for that
-        # Nation
+        # setup the combo boxes for the Fleets in the chosen Nation
+        # note the Fleet may be the one in Port for commissioned but unassigned
+        # ships and the entry box for the new formation name which must be unique 
+        # for that Nation
+        # WARNING: fleets is the LIST of fleets not the fleets file
+        # WARNING: identical code exists in the Fleets routines - EDIT BOTH
         ########################################################################
-        print('enter vie:buildformation_info')
-        self.nations = nations
-        print('nations = ', self.nations)
+        print('enter vie:formation_info')
+        self.fleets_file = fleets_file
+        self.fleets = list(fleets_file)
+        print(self.fleets)
+        print("world = ", world, '  nation = ', nation, "  fleets = ", self.fleets)
 
-        # this should be a combo box with the options for the Nations
-        self.nation = tk.StringVar(value='NeutralShips')
-        self.inputs['Nation'] = wid.LabelInput(
-            self.panel1, "Nation",
-            input_class = wid.ValidatedCombobox,
-            input_var = self.nation,
-            input_args = {'values':self.nations, 'width': 20},
-            field_spec = {'req': True, 'type': wid.FT.integer}, 
-            label_args={'style': 'RecordInfo.TLabel'}
-        )
-        self.inputs['Nation'].grid(row=0, column=0)
-
-        # this should be a checkbutton to indicate that the formation is a neutral one
-        self.red_neutrals = tk.BooleanVar(value=False)
-        self.inputs['Red'] = wid.LabelInput(
+        # this should be comments to show selected world
+        self.worldinfo = ttk.Label(
             self.panel1,
-            "Red=Neutral",
-            input_class=ttk.Checkbutton,
-            input_var=self.red_neutrals)
-        self.inputs['Red'].grid(row=0,column=1, sticky="w")
-        print('vie:buildformation.Red=Neutral')
+            text='World Selected = ' + str(world),
+            width = len(world) + 22)
+        self.worldinfo.grid(row=0, column=0, sticky='NW')
         
-        # this should be a combo box with the options for the Ports
-        self.port = tk.StringVar(value='North')
-        self.inputs['Port'] = wid.LabelInput(
-            self.panel1, "Port",
+        # this should be comments to show selected nation
+        self.nationinfo = ttk.Label(
+            self.panel1,
+            text='Nation Selected = ' + str(nation),
+            width = len(nation) + 22)
+        self.nationinfo.grid(row=0, column=1, sticky='NW')
+        
+        # this should be a combo box with the options for the Fleets
+        self.fleet = tk.StringVar(value=self.fleets[0])
+        self.inputs['Fleets'] = wid.LabelInput(
+            self.panel1, "Fleets",
             input_class = wid.ValidatedCombobox,
-            input_var = self.port,
-            input_args = {'values':['North','East','South','West'], 'width': 10},
+            input_var = self.fleet,
+            input_args = {'values':self.fleets, 'width': 20},
             field_spec = {'req': True, 'type': wid.FT.integer}, 
             label_args={'style': 'RecordInfo.TLabel'}
         )
-        self.inputs['Port'].grid(row=0, column=2)
+        self.inputs['Fleets'].grid(row=1, column=0)
 
-        # this should be an entry for the new Formation Name
+    def new_formation_info(self):
+        #################################################
+        # the extra widgets specific to the new_formation
+        # version of this window
+        #################################################
+        print('enter vie:new_formation_info')
+        self.panel1.text = "Select Fleet New Formation is in, and Unique Formation Name"
+        # this should be an entry for the New Formation Name
         self.formation_name = tk.StringVar(value="")
-        self.inputs['FormName'] = wid.LabelInput(
-            self.panel1, "FormName",
+        self.inputs['FrmtnName'] = wid.LabelInput(
+            self.panel1, "Formation Name",
             field_spec = {'req': True, 'type': wid.FT.string},
             input_var = self.formation_name,
             input_args={'width': 20},
             label_args={'style': 'RecordInfo.TLabel'}
         )
-        self.inputs['FormName'].grid(row=0, column=3)
-
-        # The get_ships button
-        self.get_ships_button = ttk.Button(
-            self.panel1,
-            text = "Get Ships",
-            command = self.get_unassigned_ships)
-        self.get_ships_button.grid(sticky="e", row=0, column=4, padx=10)
+        self.inputs['FrmtnName'].grid(row=1, column=1)
 
         # The finish button
         self.finish_button = ttk.Button(
             self.panel1,
             text = "Finish",
-            command = self.finish_buildformation)
-        self.finish_button.grid(sticky="e", row=0, column=5, padx=10)
+            command = self.finish_new_formation)
+        self.finish_button.grid(sticky="e", row=2, column=1, padx=10)
 
-    def get_unassigned_ships(self):
-        # the Nation has been selected,
-        # and indication made if the formation is Neutral (Red)
-        # the Port selected and new Formation Name entered
-        print('enter vie.get_unassigned_ships')
-        data = {}
-        for key, widget in self.inputs.items():
-            data[key] = widget.get()
+        self.status.config(text="Select Fleet and  " +
+                                "Enter New Unique Formation Name " +
+                                "then click 'Finish' button")
+        print(self.fleet, self.formation_name, self.fleets)
+        print('exit vie:new_formation_info')
+        return()
 
-        self.nation = data['Nation']
-        self.red = data['Red']
-        self.port = data['Port']
-        self.formation_name = data['FormName']
-
-        if self.formation_name == "":
-            messagebox.showinfo("ERROR",
-                                "You must enter a valid formation that doesn't already exist")
-            return()
-
-        print('nation:',self.nation,self.red, self.port,' formation_name:',self.formation_name)
-        print('exit vie.get_unassigned_ships')
-        self.callbacks['formation->get_unassigned_ships'](self.nation,self.red, self.port, self.formation_name)
-
-    def finish_buildformation(self):
+    def finish_new_formation(self):
         ####################################################
-        # all the ships have been selected for the formation
-        # pass the information back to the model for storage
+        # the fleet has been selected and formation name entered
+        # pass the information back to the application for storage
         ####################################################
-        print('enter finish_buildformation')
-        print('vie:finish_buildformation',self.buildforminfo.selected_ships)
+        print('enter vie:finish_new_formation')
+        self.selected_fleet = self.inputs['Fleets'].get()
 
-        self.callbacks['formation->complete_formation'](self.buildforminfo.selected_ships)
+        print('Selected Fleet is:', self.selected_fleet)
+        self.new_formation_name = str(self.inputs["FrmtnName"].get())
+        self.status.config(text="Selected Fleet = " + self.selected_fleet +"  New Formation = " + str(self.new_formation_name))
+
+        print(self.selected_fleet, str(self.new_formation_name), self.fleets_file)
+        
+        self.clean_up_after_finishing()		# tidy up the display after finishing the command
+        print('exit vie:finish_new_formation')
+
+        self.callbacks['formation->complete_new_formation'](self.selected_fleet, self.new_formation_name)
+
+    def rename_formation_info(self):
+        #################################################
+        # the extra widgets specific to the rename_formation
+        # version of this window
+        # WARNING: identical code exists in the Fleets routines - EDIT BOTH
+        #################################################
+        print('enter vie:rename_formation_info')
+
+        self.panel1.text = "Select Fleet Renamed Formation is in, and Unique Formation Name"
+        # this should be an entry for the New Formation Name
+        self.formation_name = tk.StringVar(value="")
+        self.inputs['FrmtnName'] = wid.LabelInput(
+            self.panel1, "Formation Name",
+            field_spec = {'req': True, 'type': wid.FT.string},
+            input_var = self.formation_name,
+            input_args={'width': 20},
+            label_args={'style': 'RecordInfo.TLabel'}
+        )
+        self.inputs['FrmtnName'].grid(row=1, column=2)
+
+        # The Load Formations button
+        self.load_formation_button = ttk.Button(
+            self.panel1,
+            text = "Load Formations",
+            command = self.load_rename_formations)
+        self.load_formation_button.grid(sticky="e", row=2, column=0, padx=10)
+
+        # The finish button
+        self.finish_button = ttk.Button(
+            self.panel1,
+            text = "Finish",
+            command = self.finish_rename_formation)
+        self.finish_button.grid(sticky="e", row=2, column=1, padx=10)
+
+        self.status.config(text="Select Fleet, click the 'Load Formations'" +
+                                " button and select the old Formation " +
+                                "Enter New Unique Formation Name " +
+                                "then click 'Finish' button")
+        print('exit vie:rename_formation_info')
+        return()
+
+    def load_rename_formations(self):
+#		get the selected fleet, setup the formations combobox from the selected fleet
+        print('enter vie:load_rename_formations')
+        selected_fleet = self.inputs['Fleets'].get()
+        print('Selected Fleet is:', selected_fleet)
+        print('formations', self.fleets_file[selected_fleet]['formations'])
+
+        # this should be a combo box with the options for the Fleets
+        self.formation = tk.StringVar(value="Select Formation")
+        self.inputs['Formations'] = wid.LabelInput(
+            self.panel1, "Formations",
+            input_class = wid.ValidatedCombobox,
+            input_var = self.formation,
+            input_args = {'values':self.fleets_file[selected_fleet]['formations'], 'width': 20},
+            field_spec = {'req': True, 'type': wid.FT.integer}, 
+            label_args={'style': 'RecordInfo.TLabel'}
+        )
+        self.inputs['Formations'].grid(row=1, column=1)
+
+        print('formations', selected_fleet, self.fleets_file[selected_fleet])   
+        print('exit vie:load_rename_formations')
+        return()
+
+    def finish_rename_formation(self):
+        ####################################################
+        # the fleet has been selected and formation name entered
+        # pass the information back to the application for storage
+        ####################################################
+        print('enter vie:finish_rename_formation')
+        print('selection ',self.inputs['Fleets'].get())
+        self.selected_fleet = self.inputs['Fleets'].get()
+
+        print('Selected Fleet is:', self.selected_fleet)
+        self.old_formation_name = self.inputs["Formations"].get()
+        print('Old Formation Name ', self.old_formation_name)
+        self.new_formation_name = self.inputs["FrmtnName"].get()
+        self.status.config(text="Selected Fleet = " + self.selected_fleet +
+                           " Old Formation = " + self.old_formation_name +
+                           " New Formation = " + str(self.new_formation_name))
+
+        print(self.selected_fleet, self.old_formation_name, str(self.new_formation_name), self.fleets_file)
+        print('exit vie:finish_rename_formation')
+
+        self.clean_up_after_finishing()		# tidy up the display after finishing the command
+
+        self.callbacks['formation->complete_rename_formation'](self.selected_fleet, self.old_formation_name, str(self.new_formation_name))
+
+    def delete_formation_info(self):
+        #################################################
+        # the extra widgets specific to the rename_formation
+        # version of this window
+        # WARNING: identical code exists in the Fleets routines - EDIT BOTH
+        #################################################
+        print('enter vie:delete_formation_info')
+
+        self.panel1.text = "Select Fleet Deleted Formation is in, and click Delete button"
+        # The Load Formations button
+        self.load_formation_button = ttk.Button(
+            self.panel1,
+            text = "Load Formations",
+            command = self.load_delete_formations)
+        self.load_formation_button.grid(sticky="e", row=2, column=0, padx=10)
+
+        # The finish button
+        self.finish_button = ttk.Button(
+            self.panel1,
+            text = "Finish",
+            command = self.finish_delete_formation)
+        self.finish_button.grid(sticky="e", row=2, column=1, padx=10)
+
+        self.status.config(text="Select Fleet, click the 'Load Formations'" +
+                                " button and select the Formation " +
+                                "Name that is to be deleted " +
+                                "then click 'Finish' button")
+        print('exit vie:delete_formation_info')
+        return()
+
+    def load_delete_formations(self):
+#		get the selected fleet, setup the formations combobox from the selected fleet
+        print('enter vie:load_delete_formations')
+        selected_fleet = self.inputs['Fleets'].get()
+        print('Selected Fleet is:', selected_fleet)
+        print('formations', self.fleets_file[selected_fleet]['formations'])
+
+        # this should be a combo box with the options for the Fleets
+        self.formation = tk.StringVar(value="Select Formation")
+        self.inputs['Formations'] = wid.LabelInput(
+            self.panel1, "Formations",
+            input_class = wid.ValidatedCombobox,
+            input_var = self.formation,
+            input_args = {'values':self.fleets_file[selected_fleet]['formations'], 'width': 20},
+            field_spec = {'req': True, 'type': wid.FT.integer}, 
+            label_args={'style': 'RecordInfo.TLabel'}
+        )
+        self.inputs['Formations'].grid(row=1, column=1)
+
+        print('formations', selected_fleet, self.fleets_file[selected_fleet])   
+        print('exit vie:load_delete_formations')
+        return()
+        
+    def finish_delete_formation(self):
+        ####################################################
+        # the fleet has been selected and formation name entered
+        # pass the information back to the application for storage
+        ####################################################
+        print('enter vie:finish_delete_formation')
+        self.selected_fleet = self.inputs['Fleets'].get()
+
+        print('Selected Fleet is:', self.selected_fleet)
+
+        self.formation_name_to_delete = self.inputs["Formations"].get()
+        print('Formation Name to delete ', self.formation_name_to_delete)
+        self.status.config(text="Selected Fleet = " + self.selected_fleet +
+                           " Formation name to delete = " + self.formation_name_to_delete)
+
+        print(self.selected_fleet, self.formation_name_to_delete, self.fleets_file)
+        print('exit vie:finish_delete_formation')
+
+        self.clean_up_after_finishing()		# tidy up the display after finishing the command
+
+        self.callbacks['formation->complete_delete_formation'](self.selected_fleet, self.formation_name_to_delete)
+
+    def clean_up_after_finishing(self):
+        # attempt to clear the panel, its title and status bar
+#        print('widget list b4 ', self.inputs)
+        for widget in self.panel1.winfo_children():
+            widget.destroy()
+        for key, value in list(self.inputs.items()):
+            del self.inputs[key]
+#        print('widget list after ', self.inputs)
+        self.panel1.text = ""
+        self.status.config(text="Select the Next Action you wish to Perform" +
+                                " from the Menus")
 
     def setup_buildforminfo(self, tree_text):
         # buildforminfo section - sets up the display for the tree info for the ships
@@ -431,7 +1579,7 @@ class BuildFormation(ttk.Frame):
             pady=10)
         self.buildforminfo = ttk.Treeview(
             self.treelabel,
-            columns=list(self.buildform_column_defs.keys())[1:],
+            columns=list(self.swap_files_column_defs.keys())[1:],
             selectmode='extended'                        # user can select multiple items
         )
         self.buildforminfo.selectors = list()            # will hold the list of items to display in this tree
@@ -448,7 +1596,7 @@ class BuildFormation(ttk.Frame):
         self.treelabel.grid(row=0, column=0, stick='W')
 
         # Configure treeview columns
-        for name, definition in self.buildform_column_defs.items():
+        for name, definition in self.swap_files_column_defs.items():
             label = definition.get('label', '')
             anchor = definition.get('anchor', self.default_anchor)
             minwidth = definition.get('minwidth', self.default_minwidth)
@@ -462,7 +1610,6 @@ class BuildFormation(ttk.Frame):
         self.buildforminfo.bind('<<TreeviewOpen>>', self.record_selection)
 
         print('exit vie:buildformation.setup_buildforminfo')
-#        return(self.buildforminfo)
 
     def record_selection(self, *args):
         # save the list of selectors that have been clicked
@@ -472,6 +1619,7 @@ class BuildFormation(ttk.Frame):
         next_selection = list(self.unassigned_ships)[selected_id]
         self.buildforminfo.selected_ships.append(next_selection)
         print('vie:record_selector ',self.buildforminfo.selected_ships)
+        print('exit vie:record_selection')
 
     def populate_buildform(self,unassigned_ships):
         # load the ship data into the treelist in panel2
@@ -505,6 +1653,119 @@ class BuildFormation(ttk.Frame):
         print(formations)
         print("exit vie:get_moves")
 
+    def joinformation_info(self, nations):
+        ########################################################################
+        # setup the combo boxes for Nation and the Port/Fleet selection
+        ########################################################################
+        print('enter vie:joinformation_info')
+        self.nations = nations
+        print('nations = ', self.nations)
+
+        # this should be a combo box with the options for the Nations
+        self.nation = tk.StringVar(value='NeutralShips')
+        self.inputs['Nation'] = wid.LabelInput(
+            self.panel1, "Nation",
+            input_class = wid.ValidatedCombobox,
+            input_var = self.nation,
+            input_args = {'values':self.nations, 'width': 20},
+            field_spec = {'req': True, 'type': wid.FT.integer}, 
+            label_args={'style': 'RecordInfo.TLabel'}
+        )
+        self.inputs['Nation'].grid(row=0, column=0)
+
+        # this should be a combo box to indicate that the formations are in
+        # a Port or a Fleet (I can't work out how to use the Radiobutton in Widgets)
+        self.port_fleet = tk.StringVar(value='Port')
+        self.inputs['Port_Fleet'] = wid.LabelInput(
+            self.panel1,
+            "Port, Fleet",
+            input_class=wid.ValidatedCombobox,
+            input_var=self.port_fleet,
+            input_args = {'values':['Port', 'Fleet'], 'width': 20},
+            field_spec = {'req': True, 'type': wid.FT.integer},
+            label_args = {'style': 'RecordInfo.TLabel'}
+        )
+        self.inputs['Port_Fleet'].grid(row=0,column=1, sticky="w")
+        print('vie:joinformation.Port_Fleet')
+
+        self.get_frmtns_button = ttk.Button(
+            self.panel1,
+            text = "Get Formations",
+            command = self.get_frmtns_4_join)
+        self.get_frmtns_button.grid(sticky="e", row=0, column=2, padx=10)
+
+        self.status.config(text="Select Nation, Indicate if a Port or Fleet is to " +
+                                "be modified, then click 'Get Formations' button")
+
+        print('exit vie:joinformation_info')
+
+    def get_frmtns_4_join(self):
+        # the Nation has been selected,
+        # and indication made if the formation is in a Port or a Fleet 
+        print('enter vie.get_frmtns_4_join')
+        data = {}
+        for key, widget in self.inputs.items():
+            data[key] = widget.get()
+
+        self.nation = data['Nation']
+        self.port_fleet = data['Port_Fleet']
+
+        print('nation:',self.nation,' Port or Fleet ',self.port_fleet)
+        print('exit vie.get_frmtns_4_join')
+        self.callbacks['formation->get_frmtns_4_join'](self.nation,self.port_fleet)
+
+# note this should be in another routine as we won't have the values until MODEL has produced them,
+# either as a list of port names or a list of fleet names
+
+    def display_frmtnlst(self, frmtnlst):
+        # got the formation list from MODEL, add another combobox for it
+        
+        print('enter vie.display_frmtnlst')
+        # this should be a combo box with the options for the Ports
+        self.frmtns = tk.StringVar(value=frmtnlst[0])
+        self.inputs['Frmtns'] = wid.LabelInput(
+            self.panel1, "Port or Fleet",
+            input_class = wid.ValidatedCombobox,
+            input_var = self.frmtns,
+            input_args = {'values':frmtnlst, 'width': 10},
+            field_spec = {'req': True, 'type': wid.FT.integer}, 
+            label_args={'style': 'RecordInfo.TLabel'}
+        )
+        self.selected_frmtns = []
+        self.inputs['Frmtns'].bind('<<ComboboxSelected>>', self.frmtnlst_selection),
+        self.inputs['Frmtns'].grid(row=0, column=3)
+
+        # The finish button
+        self.finish_button = ttk.Button(
+            self.panel1,
+            text = "Finish",
+            command = self.finish_joinformation)
+        self.finish_button.grid(sticky="e", row=0, column=4, padx=10)
+
+        self.status.config(text="Select Prime Formation, then all the other " +
+                                " formations to add to it, " +
+                                "then click 'Finish' button")
+
+        print('exit vie.display_frmtnlst')
+
+    def frmtnlst_selection(self, *args):
+        # save the list of selectors that have been clicked
+        print('enter vie:frmtnlist_selection')
+        print('selections ',self.inputs['Frmtns'].get())
+        next_selection = self.inputs['Frmtns'].get()
+        self.selected_frmtns.append(next_selection)
+        print('vie:record_selector ',self.selected_frmtns)
+
+        print('exit vie.frmtnlst_selection')
+        
+    def finish_joinformation(selfl):
+        print('enter vie.finish_joinformation')
+
+        print('exit vie:buildformation.setup_buildforminfo')
+        self.callbacks['formation->finish_joinformations'](self.selected_frmtns)
+
+'''
+            
 # routines to display the formation data and get new movement information
 
 class GetMoveForm(ttk.Frame):
@@ -870,12 +2131,6 @@ class GetMoveForm(ttk.Frame):
 
         self.nextbutton.config(text='Select', command=self.formation_on_null)
 #        print('exit vie.formation_on_finish')
-
-#    def send_move_num(self, move):
-#        print('enter vie.send_move_num')
-#        self.move_num = move
-#        print('move num ', self.move_num)
-#        print('exit vie.send_move_num')
         
     def update_status_bar(self,status_text='No Status Text Given'):
         print('enter vie.update_status_bar')

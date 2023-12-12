@@ -1,0 +1,83 @@
+Brigade,Num,Type,Morale,Constituants,Purpose,Where ,,comments,%Complete,Training Left,Training Period,Practice
+1A4A,1,Armour,4,1A4a/1A4b,NPW invasion vs NPCECap Brigades,LL1,,,100,,,
+1A4B,1,Armour,4,1A4c/1A4d,LNI then reserve,,,,100,,,
+2A4A,2,Armour,4,2A4a/2A4b,SPW invasion,LL3,,,100,,,
+2A4B,2,Armour,4,2A4c/2A4d,LNI then reserve,,,,100,,,
+3A3A,3,Armour,3,3A4a/3A4b,Reserve,,,,100,,,
+3A3B,3,Armour,3,3A4c/3A4d,Reserve,,,,100,,,
+4A3-,4,Armour,3,3I4d,3 out of 4 months training-I->A,PIN Capital,,,100,1,m,
+5A3-,5,Armour,3,4I4d,2 out of 4 months training-I->A,PIN Capital,,,100,2,m,
+6A3-,6,Armour,3,5I4d,1 out of 4 months training-I->A,PIN Capital,,,100,3,m,
+7A3-,7,Armour,3,none,filling other brigades,PIN Capital,,,100,4,m,
+1M4A,1,Mechanised,4,1M4a/1M4b,NPW invasion vs NPW Brigade,LL1,,,100,,,
+1M4B,1,Mechanised,4,1M4c/1M4d,LNI then reserve,,,,100,,,
+2M4A,2,Mechanised,4,2M4a/2M4b,SPW invasion,LL3,,,100,,,
+2M4B,2,Mechanised,4,2M4c/2M4d,LNI then reserve,,,,100,,,
+3M3A,3,Mechanised,3,3M3a/3M3b,NPW invasion vs NPCECap Brigades,LL2,,,100,,,1
+3M3B,3,Mechanised,3,3M3c/3M3d,SPW invasion,LL4,,,100,,,1
+4M1A,4,Mechanised,1,4M1a/4M1b,2 out of 3 months training-I->M,PIN Capital,,,100,1,m,0
+4M1B,4,Mechanised,1,4M1c/4M1d,2 out of 3 months training-I->M,PIN Capital,,,100,1,m,0
+5M1A,5,Mechanised,1,5M1a/5M1b,1 out of 3 months training-I->M,PIN Capital,,,100,2,m,0
+5M1B,5,Mechanised,1,5M1c/5M1d,1 out of 3 months training-I->M,PIN Capital,,,100,2,m,0
+1I2A,1,Infantry,2,1I2a/1I2b,Reserve,,,,100,,,
+1I2B,1,Infantry,2,1I2c/1I2d,Reserve,,,,100,,,
+2I2A,2,Infantry,2,2I2a/2I2b,Reserve,,,,100,,,
+2I2B,2,Infantry,2,2I2c/2I2d,Reserve,,,,100,,,
+3I4A,3,Infantry,4,3I4a/3I4b,NOI invasion then LNI then reserve,LS6,,completes as 4A3 in 1 month,100,1,m,
+3I4B,3,Infantry,4,3I4c/7I4c,NII invasion then LNI then reserve,LS2,,,100,1,m,
+4I4A,4,Infantry,4,4I4a/4I4b,SOIW invasion  then LNI then reserve,LS20,,completes as 5A3 in 2 months,100,2,m,
+4I4B,4,Infantry,4,4I4c/7I4a,SIIC invasion then LNI then reserve,LS14,,,100,2,m,
+5I4A,5,Infantry,4,5I4a/5I4b,NPW invasion vs NPCECap Brigades,LL2,,completes as 6A3 in 3 months,100,3,m,
+5I4B,5,Infantry,4,5I4c/7I4b,SPW invasion,LL4,,,100,3,m,
+6I4A,6,Infantry,4,6I4a/6I4b,Reserve,,,completes as 7A3 in 4 months,100,4,m,
+6I4B,6,Infantry,4,6i4c/7I4d,Reserve,,,,100,4,m,
+8I2A,8,Infantry,2,8I2a/8I2b,Reserve,,,,100,,,
+8I2B,8,Infantry,2,8I2c/8I2d,Reserve,,,,100,,,
+9I2A,9,Infantry,2,9I2a/9I2b,Reserve,,,,100,,,
+9I2B,9,Infantry,2,9I2c/9I2d,Reserve,,,,100,,,
+10I1A,10,Infantry,1,10I1a/10I1b,NPW invasion vs NPCECap Brigades,LS1,,,100,,,2
+10I1B,10,Infantry,1,10I1c/10I1d,SPW invasion,LS11,,,100,,,2
+11I1A,11,Infantry,1,11I1a/11I1b,NOI invasion then NOIC,LS7,,,100,,,2
+11I1B,11,Infantry,1,11I1c/11I1d,SOIE,LS18,,,100,,,2
+12I1A,12,Infantry,1,12I1a/12I1b,NII invasion then NIIC,LS3,,,100,,,2
+12I1B,12,Infantry,1,12I1c/12I1d,SIIE,LS15,,,100,,,2
+13I1A,13,Infantry,1,13I1a/13I1b,NPW invasion vs NPW Brigade,LS10,,,100,,,2
+13I1B,13,Infantry,1,13I1c/13I1d,SPW invasion,LS12,,,100,,,2
+14I1A,14,Infantry,1,14I1a/14I1b,NOI invasion then NOIE,LS8,,,100,,,1
+14I1B,14,Infantry,1,14I1c/14I1d,NOI invasion then NOIW,LS9,,,100,,,1
+15I1A,15,Infantry,1,15I1a/15I1b,SOIW,LS19,,,100,,,1
+15I1B,15,Infantry,1,15I1c/15I1d,SOIC,LS17,,,100,,,1
+16I1A,16,Infantry,1,16I1a/16I1b,NII invasion then NIIE,LS4,,,100,,,1
+16I1B,16,Infantry,1,16I1c/16I1d,NII invasion then NIIW,LS5,need NIIC to,,100,,,1
+17I1A,17,Infantry,1,17I1a/17I1b,SIIW,LS16,,,100,,,1
+17I1B,17,Infantry,1,17I1c/17I1d,SIIC,LS13,,,100,,,1
+18I1A,18,Infantry,1,18I1a/18I1b,LNI,,,,100,,,
+18I1B,18,Infantry,1,18I1c/18I1d,LNI,,,,100,,,
+19I1A,19,Infantry,1,19I1a/19I1b,LNI,,,,100,,,
+19I1B,19,Infantry,1,19I1c/19I1d,LNI,,,,100,,,
+20I1A,20,Infantry,1,20I1a/20I1b,LNI,,,,100,,,
+20I1B,20,Infantry,1,20I1c/20I1d,LNI,,,,100,,,
+21I1A,21,Infantry,1,21I1a/21I1b,2 out of 3 months training-I,Northon,,,100,1,m,
+21I1B,21,Infantry,1,21I1c/21I1d,2 out of 3 months training-I,Northon,,,100,1,m,
+22I1A,22,Infantry,1,22I1a/22I1b,2 out of 3 months training-I,Easton,,,100,1,m,
+22I1B,22,Infantry,1,22I1c/22I1d,2 out of 3 months training-I,Easton,,,100,1,m,
+23I1A,23,Infantry,1,23I1a/23I1b,2 out of 3 months training-I,Southon,,,100,1,m,
+23I1B,23,Infantry,1,23I1c/23I1d,2 out of 3 months training-I,Southon,,,100,1,m,
+24I1A,24,Infantry,1,24I1a/24I1b,2 out of 3 months training-I,Weston,,,100,1,m,
+24I1B,24,Infantry,1,24I1c/24I1d,2 out of 3 months training-I,Weston,,,100,1,m,
+25I1A,25,Infantry,1,25I1a/25I1b,1 out of 3 months training-I,Northon,,,100,2,m,
+25I1B,25,Infantry,1,25I1c/25I1d,1 out of 3 months training-I,Northon,,,100,2,m,
+26I1A,26,Infantry,1,26I1a/26I1b,1 out of 3 months training-I,Easton,,,100,2,m,
+26I1B,26,Infantry,1,26I1c/26I1d,1 out of 3 months training-I,Easton,,,100,2,m,
+27I1A,27,Infantry,1,27I1a/27I1b,1 out of 3 months training-I,Southon,,,100,2,m,
+27I1B,27,Infantry,1,27I1c/27I1d,1 out of 3 months training-I,Southon,,,100,2,m,
+28I1A,28,Infantry,1,28I1a/28I1b,1 out of 3 months training-I,Weston,,,100,2,m,
+28I1B,28,Infantry,1,28I1c/28I1d,1 out of 3 months training-I,Weston,,,100,2,m,
+29I1A,29,Infantry,1,29I1a/29I1b,0 out of 3 months training-I,Northon,,,100,3,m,
+29I1B,29,Infantry,1,29I1c/29I1d,0 out of 3 months training-I,Northon,,,100,3,m,
+30I1A,30,Infantry,1,30I1a/30I1b,0 out of 3 months training-I,Easton,,,100,3,m,
+30I1B,30,Infantry,1,30I1c/30I1d,0 out of 3 months training-I,Easton,,,100,3,m,
+31I1A,31,Infantry,1,31I1a/31I1b,0 out of 3 months training-I,Southon,,,100,3,m,
+31I1B,31,Infantry,1,31I1c/31I1d,0 out of 3 months training-I,Southon,,,100,3,m,
+32I1A,32,Infantry,1,32I1a/32I1b,0 out of 3 months training-I,Weston,,,100,3,m,
+32I1B,32,Infantry,1,32I1c/32I1d,0 out of 3 months training-I,Weston,,,100,3,m,

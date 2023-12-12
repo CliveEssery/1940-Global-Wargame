@@ -7,20 +7,32 @@ Delphi version written in 2004
 
 Contains routines to 
 - move all ships in a battle
+- assign targets
 - get range to target and bearings
 - engage in combat
+- create a new (empty) formation
+- rename an existing formation
+- delete an existing empty formation
+- create a new fleet
+- rename an existing fleet
+- delete an existing empty fleet
+- swap formations from one fleet to another and rearrange their order
+ - need to update other items such as speed, maybe need to update formation
+   to say which fleet it is in? need equiv of update_formations for fleets
+
   - future projects:
 - design classes of ships
 - build ships from those classes that are required
 - put ships into formations
-- build a fleet from formations
 - build battle from two antagonistic fleets - may be Neutrals
 - start to build ships on slips, completions docks
 - repair damaged ships in completion docks or dry docks
+- upgrade ships in completion or dry docks
 - move equipment around world
 - move fleets around world
 - perform sighting of one fleet to another
 """
+from . import utilities as util
 from .constants import *
 import math as math
 from .constants import FieldTypes as FT
@@ -28,7 +40,6 @@ import json
 import os
 from tkinter import messagebox
 from tkinter import filedialog
-from . import utilities as util
 
 
 class battle_model:
@@ -134,13 +145,48 @@ class battle_model:
                     line += format(ship_data['main']['xingt'],'.2f')
                     print(line)
 
+    def get_json_file(self, directory="", subdirectory="", filename=""):
+        print('enter mod:get_json_file')
+        
+        filepath = './Data'
+        if directory != "":
+            filepath += '/' + directory
+        if subdirectory != "":
+            filepath += '/' + subdirectory
+        filepath += '/' + filename + '.json'
+        print(filepath)
+        
+        # if the file doesn't exist, return
+        if not os.path.exists(filepath):
+            print("mod:get_json_file missing file")
+            return('fail',{})
+        print('mod:get_json_file file exists ', filepath)
+
+        # open the file and read in the raw values
+        with open(filepath, 'r') as fh:
+            file_contents = fh.read()
+            print("*",file_contents,"*")
+            contents_of_file = json.loads(file_contents)
+
+        print('exit mod:get_json_file')
+        return('success',contents_of_file)
+
     def get_nation_directory(self):
         print('enter mod:get_nation_directory')
         directories = os.listdir(r'./data/')
         print(directories)
+        print('exit mod:get_nation_directory')
         return(directories)
+
+    def save_nation(self,selected_nation,plyr_neut):
+        print('enter mod:save_nation')
+        self.nation = selected_nation
+        self.plyr_neut = plyr_neut
+        print('nation,plyr_neut ',selected_nation, plyr_neut)
+        print('nation,plyr_neut ',self.nation, self.plyr_neut)
+        print('exit mod:save_nation')
         
-    def get_unassigned_ships(self, directory, red, port, name):
+    def get_unassigned_ships(self, directory, port, name):
         print('enter mod:get_unassigned_ships')
         self.nation = directory
         self.port = port
@@ -163,83 +209,511 @@ class battle_model:
 
         self.ships = raw_values   #['ships']
         print(self.ships)
-        
+
+# need the ships in the cities.json file that are in the selected port and not
+# assigned, don't need red, all red formations setup before start of game
+
         unassigned_ships = {}
         for ship in self.ships:
             values = self.ships[ship]
             if values['formation'] == "":
-                if red and ship[0].lower() == 'r':
-                    unassigned_ships[ship] = values["notes"]
-                elif not(red) and ship[0].lower() != 'r':
-                    unassigned_ships[ship] = values["notes"]
+                unassigned_ships[ship] = values["notes"]
                 
         print(unassigned_ships)
         return('ok', unassigned_ships)
 
-    def complete_formation(self, selections):
+    def complete_new_fleet(self, world, nation, selected_fleet, new_fleet_name):
         ########################################################
-        # open the formations file in self.nation directory
-        # add the new formation with the selections as the ships
-        # save the formations file back again
+        # open the fleets file in world/nation directory
+        # if the name already exists, raise an error and return
+        # add the new empty fleet 
+        # save the fleets file back again
         # close the file (not necessary)?
-##### question do we need to allow split/join formations within the battle?
-##### proly ask for port or fleet before split/join and only allow formations
-##### at that location
-        print('enter mod:complete_formation')
-        self.selections = selections
-        print('selections ',self.selections)
+        # open the nations file in the same directory and add the fleet
+        # to the relevant nation
+        print('enter mod:complete_new_fleet')
 
-        filepath = './Data/' + self.nation + '/ships.json'
+# open the fleets file and check if the new_fleet_name already exists
+# if so display an error message and return a "Fail"
+        filepath = './Data'
+        if world != "":
+            filepath += '/' + world
+        if nation != "":
+            filepath += '/' + nation
+        filepath += '/' + "fleets" + '.json'
+        print(filepath)
         # open the file and read in the raw values
         with open(filepath, 'r') as fh:
-            allships = json.loads(fh.read())
+            fleets = json.loads(fh.read())
+        print("fleets ", fleets, type(fleets))
+        
+        if new_fleet_name in fleets:
+            # deal with error
+            messagebox.showerror(title="Error", message="Fleet already exists")
+            return("Fail")
 
-        # add formation name to selected ships
-        for ship in self.selections:
-            allships[ship]["formation"] = self.formation_name
+#		create a new fleet dictionary and add it to the fleets file
+        locn = fleets[selected_fleet]['locn']
+        max_spd = fleets[selected_fleet]['max_spd']
+        cru_spd = fleets[selected_fleet]['cru_spd']
+        newfleet = {"side": nation, "locn": locn, "max_spd": max_spd, "cru_spd": cru_spd, "act_spd": 0, "formations": []}
+        print('new fleet',newfleet, type(newfleet))
+        print('new fleet name', new_fleet_name, type(new_fleet_name))
 
-        json_string = json.dumps(allships)
-        print('ships ', json_string)
+        fleets[new_fleet_name] = newfleet
+        json_string = json.dumps(fleets)
+        print('json_string', json_string)
+
         # open the file in write mode and write the changed values back
         with open(filepath, 'w') as fh:
             fh.write(json_string)
 
-        filepath = './Data/' + self.nation + '/formations.json'
+# there is no listing of the fleets in the nation within the nation.json file - wonder if there should be
+         
+        print("exit mod:complete_new_formation")
+        return("Success")
+
+    def complete_rename_fleet(self, world, nation, old_fleet_name, new_fleet_name):
+        ########################################################
+        # open the fleets file in world/nation directory
+        # rename the selected fleet to the new_fleet_name 
+        # save the fleets file back again
+        # close the file (not necessary)?
+        print('enter mod:complete_rename_fleet')
+
+# open the fleets file and check if the new_fleet_name already exists
+# if so display an error message and return a "Fail"
+        filepath = './Data'
+        if world != "":
+            filepath += '/' + world
+        if nation != "":
+            filepath += '/' + nation
+        filepath += '/' + "fleets" + '.json'
+        print(filepath)
         # open the file and read in the raw values
         with open(filepath, 'r') as fh:
-            allformations = json.loads(fh.read())
+            fleets = json.loads(fh.read())
+        print("fleets ", fleets, type(fleets))
+        
+        if new_fleet_name in fleets:
+            # deal with error
+            messagebox.showerror(title="Error", message="Fleet already exists")
+            return("Fail")
 
-        newformation = self.build_formation(self.selections, allships)
-        allformations[self.formation_name] = newformation
+        print('old fleet name', old_fleet_name, type(old_fleet_name))
+        print('new fleet name', new_fleet_name, type(new_fleet_name))
 
-        json_string = json.dumps(allformations)
-        print('formations ', json_string)
-        # open the file in write mode and re-write the values
+        fleets[new_fleet_name] = fleets[old_fleet_name]
+        del fleets[old_fleet_name]
+        json_string = json.dumps(fleets)
+        print('json_string', json_string)
+
+        # open the file in write mode and write the changed values back
         with open(filepath, 'w') as fh:
             fh.write(json_string)
-            
-        filepath = './Data/' + self.nation + '/ports.json'
+
+# should only be one file to update - no fleets list in Nation.json
+         
+        print("exit mod:complete_rename_fleet")
+        return("Success")
+
+    def complete_delete_fleet(self, world, nation, fleet_name):
+        ######################################################
+        # raise an error if the fleet has any formations in it
+        # otherwise, delete the fleet
+        # NOTE nation file shouldn't have any references to the fleets
+        ######################################################
+        print('enter mod:complete_delete_fleet')
+
+# open the fleets file and check if the fleet_name_to_delete is empty
+# if so display an error message and return a "Fail"
+        filepath = './Data'
+        if world != "":
+            filepath += '/' + world
+        if nation != "":
+            filepath += '/' + nation
+        filepath += '/' + "fleets" + '.json'
+        print(filepath)
         # open the file and read in the raw values
         with open(filepath, 'r') as fh:
-            allports = json.loads(fh.read())
+            fleets = json.loads(fh.read())
+        print("fleets ", fleets, type(fleets))
+        
+        if fleets[fleet_name]['formations'] != []:
+            # deal with error
+            messagebox.showerror(title="Error", message="Fleet contains formations, clear them out first")
+            return("Fail")
 
-        formations = allports[self.port]["formations"]
-        print(self.port,' formations is ',formations)
-        formations.append(self.formation_name)
-        allports[self.port]["formations"] = formations
-        print(self.port,' formations is ',allports[self.port]["formations"])
+        print('fleet name to delete', fleet_name, type(fleet_name))
 
-        json_string = json.dumps(allports)
-        print('ports ', json_string)
+        del fleets[fleet_name]
+        json_string = json.dumps(fleets)
+        print('json_string', json_string)
+
+        # open the file in write mode and write the changed values back
+        with open(filepath, 'w') as fh:
+            fh.write(json_string)
+
+    def complete_swap_formations(self, world, nation, fleet1, fleet1_formations, fleet2, fleet2_formations):
+        print('enter mod:complete_swap_formations')
+        print('world nation ', world, nation)
+        print('fleet1 ', fleet1, fleet1_formations)
+        print('fleet2 ', fleet2, fleet2_formations)
+# open the fleets file 
+        filepath = './Data'
+        if world != "":
+            filepath += '/' + world
+        if nation != "":
+            filepath += '/' + nation
+        filepath_fleets = filepath + '/' + "fleets" + '.json'
+        print(filepath_fleets)
+        # open the file and read in the raw values
+        with open(filepath_fleets, 'r') as fh:
+            self.fleets = json.loads(fh.read())
+        print("fleets ", self.fleets, type(self.fleets))
+        
+        if fleet1 != "":
+            self.fleets[fleet1]['formations'] = fleet1_formations
+        if fleet2 != "":
+            self.fleets[fleet2]['formations'] = fleet2_formations
+        
+# open the formations file
+        print('filepat ',filepath)
+        filepath_formations = filepath + '/' + "formations" + '.json'
+        # open the file and read in the raw values
+        with open(filepath_formations, 'r') as fh:
+            self.formations = json.loads(fh.read())
+        print("formations ", self.formations, type(self.formations))
+        
+        if fleet1 != "":
+            self.update_fleets_and_formations(fleet1)
+        if fleet2 != "":
+            self.update_fleets_and_formations(fleet2)
+        
+        # save the data back to the file
+        json_string = json.dumps(self.fleets)
+        print('json_string', json_string)
+
+        # open the file in write mode and write the changed values back
+        with open(filepath_fleets, 'w') as fh:
+            fh.write(json_string)
+            
+# no changes to Formations file so no need to write it back
+            
+        print('exit mod:complete_swap_formations')
+        
+    def update_fleets_and_formations(self, fleet):
+        # calculate the maximum speed that the fleet can manage based on all of the formations in it
+        # doesn't appear that the formation file contains an indicator of which fleet it is in - maybe it should
+        # update the formation file to show which fleet it is in
+        print('enter mod:update_fleets_and_formations')
+        max_speed = 60		# the highest speed a ship may achieve - MTB
+        for formation in self.fleets[fleet]['formations']:
+            if self.formations[formation]['bestspd'] < max_speed:
+                max_speed = self.formations[formation]['bestspd']
+        self.fleets[fleet]['max_spd'] = max_speed
+        print('exit mod:update_fleets_and_formations')
+                
+        
+############################
+# FORMATIONS METHODS
+############################
+
+    def complete_new_formation(self, world, nation, selected_formation, new_formation_name):
+        ########################################################
+        # open the formations file in world/nation directory
+        # add the new empty formation 
+        # save the formations file back again
+        # close the file (not necessary)?
+        # open the fleets file in the same directory and add the formation
+        # to the relevant fleet
+##### question do we need to allow split/join formations within the battle?
+##### proly ask for fleet before split/join and only allow formations
+##### at that location
+        print('enter mod:complete_new_formation')
+
+# open the formations file and check if the new_formation_name already exists
+# if so display an error message and return a "Fail"
+        filepath = './Data'
+        if world != "":
+            filepath += '/' + world
+        if nation != "":
+            filepath += '/' + nation
+        filepath += '/' + "formations" + '.json'
+        print(filepath)
+        # open the file and read in the raw values
+        with open(filepath, 'r') as fh:
+            formations = json.loads(fh.read())
+        print("formations ", formations, type(formations))
+        
+        if new_formation_name in formations:
+            # deal with error
+            messagebox.showerror(title="Error", message="Formation already exists")
+            return("Fail")
+
+#		create a new formation dictionary and add it to the formations file
+        newformation = {"fleet":"","currspd": 0, "spdstep": 8, "bestspd": 60, "b4turn": 8, "straight": 8, "move": "", "facing": 0, "ships": []}
+        print('new formation',newformation, type(newformation))
+        print('new formation name', new_formation_name, type(new_formation_name))
+
+        selected_fleet = formations[selected_formation]['fleet']
+        newformation["fleet"] = selected_fleet
+        formations[new_formation_name] = newformation
+        json_string = json.dumps(formations)
+        print('json_string', json_string)
+
+        # open the file in write mode and write the changed values back
+        with open(filepath, 'w') as fh:
+            fh.write(json_string)
+
+#		open the fleets file, append the new formation name to the formations entry
+#		for the selected fleet and write the file back again
+        filepath = './Data'
+        if world != "":
+            filepath += '/' + world
+        if nation != "":
+            filepath += '/' + nation
+        filepath += '/' + "fleets" + '.json'
+        print(filepath)
+        # open the file and read in the raw values
+        with open(filepath, 'r') as fh:
+            fleets = json.loads(fh.read())
+
+        print('fleets ', fleets, type(fleets))
+        print('selected fleet ',selected_fleet, type(selected_fleet))
+        print('fleet ',fleets[selected_fleet],type(fleets[selected_fleet]))
+        print('formations ',fleets[selected_fleet]['formations'],type(fleets[selected_fleet]['formations']))
+
+        fleets[selected_fleet]['formations'].append(new_formation_name)
+        print('fleet ',fleets[selected_fleet])
+        json_string = json.dumps(fleets)
+        print('json_string ', json_string,type(json_string))
+
         # open the file in write mode and re-write the values
         with open(filepath, 'w') as fh:
             fh.write(json_string)
          
-        print("exit mod:complete_formation")
+        print("exit mod:complete_new_formation")
+        return("Success")
 
-    def build_formation(self, selections, ships):
+    def complete_rename_formation(self, world, nation, old_formation_name, new_formation_name):
+        ########################################################
+        # open the formations file in world/nation directory
+        # add the new empty formation 
+        # save the formations file back again
+        # close the file (not necessary)?
+        # open the fleets file in the same directory and add the formation
+        # to the relevant fleet
+##### question do we need to allow split/join formations within the battle?
+##### proly ask for fleet before split/join and only allow formations
+##### at that location
+        print('enter mod:complete_rename_formation')
+
+# open the formations file and check if the new_formation_name already exists
+# if so display an error message and return a "Fail"
+        filepath = './Data'
+        if world != "":
+            filepath += '/' + world
+        if nation != "":
+            filepath += '/' + nation
+        filepath += '/' + "formations" + '.json'
+        print(filepath)
+        # open the file and read in the raw values
+        with open(filepath, 'r') as fh:
+            formations = json.loads(fh.read())
+        print("formations ", formations, type(formations))
+        
+        if new_formation_name in formations:
+            # deal with error
+            messagebox.showerror(title="Error", message="Formation already exists")
+            return("Fail")
+
+        print('old formation name', old_formation_name, type(old_formation_name))
+        print('new formation name', new_formation_name, type(new_formation_name))
+
+        selected_fleet = formations[old_formation_name]['fleet']	# save the fleet name to update the formation name
+        formations[new_formation_name] = formations[old_formation_name]
+        del formations[old_formation_name]
+        json_string = json.dumps(formations)
+        print('json_string', json_string)
+
+        # open the file in write mode and write the changed values back
+        with open(filepath, 'w') as fh:
+            fh.write(json_string)
+
+#		open the fleets file, append the new formation name to the formations entry
+#		for the selected fleet and write the file back again
+        filepath = './Data'
+        if world != "":
+            filepath += '/' + world
+        if nation != "":
+            filepath += '/' + nation
+        filepath += '/' + "fleets" + '.json'
+        print(filepath)
+        # open the file and read in the raw values
+        with open(filepath, 'r') as fh:
+            fleets = json.loads(fh.read())
+
+        print('fleets ', fleets, type(fleets))
+        print('selected fleet ',selected_fleet, type(selected_fleet))
+        print('fleet ',fleets[selected_fleet],type(fleets[selected_fleet]))
+        print('formations ',fleets[selected_fleet]['formations'],type(fleets[selected_fleet]['formations']))
+
+        index = fleets[selected_fleet]['formations'].index(old_formation_name)
+        print(index, fleets[selected_fleet]['formations'])
+        fleets[selected_fleet]['formations'][index] = new_formation_name
+        print('fleet ',fleets[selected_fleet])
+        json_string = json.dumps(fleets)
+        print('json_string ', json_string,type(json_string))
+
+        # open the file in write mode and re-write the values
+        with open(filepath, 'w') as fh:
+            fh.write(json_string)
+         
+        print("exit mod:complete_rename_formation")
+        return("Success")
+
+    def complete_delete_formation(self, world, nation, formation_name):
         ######################################################
-        # build a formation with info from the selected ships
+        # raise an error if the formation has any ships in it
+        # otherwise, delete the formation
+        # NOTE fleets file shouldn't have any references to that formation either
+        ######################################################
+        print('enter mod:complete_delete_formation')
+
+# open the formations file and check if the formation_name_to_delete is empty
+# if so display an error message and return a "Fail"
+        filepath = './Data'
+        if world != "":
+            filepath += '/' + world
+        if nation != "":
+            filepath += '/' + nation
+        filepath += '/' + "formations" + '.json'
+        print(filepath)
+        # open the file and read in the raw values
+        with open(filepath, 'r') as fh:
+            formations = json.loads(fh.read())
+        print("formations ", formations, type(formations))
+        print("formation ", formations[formation_name], type(formations[formation_name]))
+        
+        if formation_name not in formations:
+            # deal with error
+            messagebox.showerror(title="Error", message="Formation name doesn't exist")
+            # note this should never happen as we have selected it from the formations file
+            return("Fail")
+            
+        if formations[formation_name]['ships'] != []:
+            # deal with error
+            messagebox.showerror(title="Error", message="Formation contains ships, clear them out first")
+            return("Fail")
+
+        print('formation name to delete', formation_name, type(formation_name))
+
+        fleet = formations[formation_name]['fleet']		#save the fleet name to clear this formation
+                                                        # from its list
+        del formations[formation_name]
+        json_string = json.dumps(formations)
+        print('json_string', json_string)
+
+        # open the file in write mode and write the changed values back
+        with open(filepath, 'w') as fh:
+            fh.write(json_string)
+
+#		open the fleets file, delete the formation name from the formations entry
+#		for the selected fleet and write the file back again
+        filepath = './Data'
+        if world != "":
+            filepath += '/' + world
+        if nation != "":
+            filepath += '/' + nation
+        filepath += '/' + "fleets" + '.json'
+        print(filepath)
+        # open the file and read in the raw values
+        with open(filepath, 'r') as fh:
+            fleets = json.loads(fh.read())
+
+        print('fleets ', fleets, type(fleets))
+        print('selected fleet ',fleet, type(fleet))
+        print('fleet ',fleets[fleet],type(fleets[fleet]))
+        print('formations ',fleets[fleet]['formations'],type(fleets[fleet]['formations']))
+
+#        index = fleets[fleet]['formations'].index(formation_name)
+#        print(index, fleets[fleet]['formations'])
+        fleets[fleet]['formations'].remove(formation_name)
+        print('fleet ',fleets[fleet])
+        json_string = json.dumps(fleets)
+        print('json_string ', json_string,type(json_string))
+
+        # open the file in write mode and re-write the values
+        with open(filepath, 'w') as fh:
+            fh.write(json_string)
+         
+        print("exit mod:complete_delete_formation")
+        return("Success")
+        
+    def complete_swap_ships(self, world, nation, formation1, formation1_ships, formation2, formation2_ships):
+        print('enter mod:complete_swap_ships')
+        print('world nation ', world, nation)
+        print('formation1 ', formation1, formation1_ships)
+        print('formation2 ', formation2, formation2_ships)
+# open the formations file 
+        filepath = './Data'
+        if world != "":
+            filepath += '/' + world
+        if nation != "":
+            filepath += '/' + nation
+        filepath_formations = filepath + '/' + "formations" + '.json'
+        print(filepath_formations)
+        # open the file and read in the raw values
+        with open(filepath_formations, 'r') as fh:
+            self.formations = json.loads(fh.read())
+        print("formations ", self.formations, type(self.formations))
+        
+        if formation1 != "":
+            self.formations[formation1]['ships'] = formation1_ships
+        if formation2 != "":
+            self.formations[formation2]['ships'] = formation2_ships
+        
+# open the ships file
+        print('filepat ',filepath)
+        filepath_ships = filepath + '/' + "ships" + '.json'
+        # open the file and read in the raw values
+        with open(filepath_ships, 'r') as fh:
+            self.ships = json.loads(fh.read())
+        print("ships ", self.ships, type(self.ships))
+        
+        if formation1 != "":
+            self.update_formations_and_ships(formation1)
+        if formation2 != "":
+            self.update_formations_and_ships(formation2)
+        
+        # save the data back to the file
+        json_string = json.dumps(self.formations)
+        print('json_string', json_string)
+
+        # open the file in write mode and write the changed values back
+        with open(filepath_formations, 'w') as fh:
+            fh.write(json_string)
+            
+# no changes to ships file so no need to write it back
+            
+        print('exit mod:complete_swap_ships')
+        
+    def update_formations_and_ships(self, formation):
+        # calculate the maximum speed that the formation can manage based on all of the ships in it
+        # doesn't appear that the ship file contains an indicator of which formation it is in - maybe it should
+        # update the ships file to show which fleet it is in - currently blank
+        print('enter mod:update_formations_and_ships')
+        max_speed = 60		# the highest speed a ship may achieve - MTB
+        for ship in self.formations[formation]['ships']:
+            if self.ships[ship]['dsgnspd'] < max_speed:
+                max_speed = self.ships[ship]['dsgnspd']
+        self.formations[formation]['bestspd'] = max_speed
+        print('exit mod:update_formations_and_ships')
+
+    def update_formation(self, existing_formation, selections, ships):
+        ######################################################
+        # update a formation with info from the selections 
         # 
         empty_formation = {"currspd":0,"spdstep":0,"bestspd":0,"b4turn": 0,"straight":0,"move":"","facing":0,"ships":[]}
 
@@ -255,8 +729,7 @@ class battle_model:
         #                  MZ = Destroyer Leaders and smaller
         #                  LZ = MTBs, Landing Craft and Aircraft
 
-        print('enter build_formation ')
-
+        print('enter mod:update_formation')
         bestspd = 60     # the highest speed of any ship = MTB
         b4turn = 2       # the smallest step before a ship can turn
         spdstep = 6      # the largest speed step          
@@ -266,6 +739,7 @@ class battle_model:
             object_size = object_sizes[ships[ship]["shipsize"]]
             if ships[ship]["dsgnspd"] < bestspd:
                 bestspd = ships[ship]["dsgnspd"]
+# it doesn't look right to use object_size here but it is correct
             if object_size["b4turn"] > b4turn:
                 b4turn = object_size["b4turn"]
             if object_size["spdstep"] < spdstep:
@@ -277,7 +751,11 @@ class battle_model:
 
         print('exit build_formation ', empty_formation)
         return(empty_formation)
-        
+
+######################################
+# BATTLE ROUTINES
+######################################
+
     def get_move_num(self):
         print("enter mod:get_move_num")
         print(self.move_num)
@@ -297,7 +775,7 @@ class battle_model:
             values['straight'] = value['straight']
             values['move'] = value['move']
             values['currspd'] = value['currspd']
-            values['spdstep'] = value['spdstep']
+            values['step'] = value['step']
             values['facing'] = value['facing']
 
             return_var[key]=values
@@ -336,7 +814,7 @@ class battle_model:
             return(self.formations)
         else:
             print("exit mod:Get_formations")
-            return(none)
+            return(None)
 
     def get_ships(self):
 #        """return the ships data to the application"""
@@ -345,7 +823,7 @@ class battle_model:
             return(self.move_num, self.ships)
         else:
             print("exit mod:get_ships")
-            return(none)
+            return(None)
 
     def get_dbs(self):
         print("enter mod:get_dbs")
@@ -355,7 +833,7 @@ class battle_model:
             return(self.move_num, self.fleets, self.formations, self.ships)
         else:
             print("exit mod:get_dbs-failure")
-            return(none)
+            return(None)
 
 #---------------------------------------------------------------------#
 #    Get Range                                                        #
@@ -681,7 +1159,7 @@ class battle_model:
 #        logging
         self.move_filepath = self.path + 'LgIsle-' + str(self.move_num) + 'move' + self.extension
         
-# note need to convert lists to strings b4 we can use json encoding
+# note need to convert lists to strings b4 we can use json encoding XXXX
 #        with open(self.move_filepath, 'w') as fh:
 #            fh.write(self.moves)
 #        self.print_ships("exit move_all")
@@ -689,7 +1167,7 @@ class battle_model:
 #        print("exit move_all")
 
     def set(self, key, value):
-        logging("enter set")
+        print ("enter Mod:set")
         """Set may need to have one for formations and ships
            variable value"""
         if (
@@ -699,7 +1177,7 @@ class battle_model:
             self.variables[key]['value'] = value
         else:
             raise ValueError("Bad key or wrong variable type")
-        logging("exit set")
+        print("exit Mod:set")
 
     def get_range_bear(self, ship1="", ship2=""):
 #        """ gets the range and updates the ships database
@@ -1000,7 +1478,7 @@ class battle_model:
 
         with open(self.battle_filepath, 'w') as fh:
             fh.write(json_string)
-#        print("exit save battle")
+        print("exit save battle")
 
     def get_file_to_load(self):
         # get the filename to load and tell the application what the name is
@@ -1010,7 +1488,7 @@ class battle_model:
                 title = "Data has changed",
                 message = """Do you really want to delete it?""")
             if not(reply):
-                return()
+                return(None)
         load_filename = filedialog.askopenfilename(
             title= "Select the filename to Load",
             initialdir = ".Data",

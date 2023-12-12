@@ -1,0 +1,12 @@
+Army,"purpose":,"location:","brigades":
+{TrainingCap:{Training at Capital, "[0,0,0,0]", "[5M1A,5M1B,6A3-,4M1A,4M1B,5A3-,4A3-]"},
+AttLNI:{Attack LNI,[0,0,-200,0],[1A4B,2A4B,1M4B,2M4B,18I1A,18I1B,19I1A,19I1B,20I1A,20I1B]},
+AttNPole:{Attack Npole CECap Brigades,"[0,0,0,200]",[1A4A,3M3A,5I4A,10I1A]},
+AttNPole,Attack Npole W Brigade,"[0,0,0,200]",[3I4B,13I1A]},
+AttNI,Attack Northern Inner Islands,"[0,0,0,200]",[3I4B,12I1A,16I1A,16I1B]},
+AttNO,Attack Northern Outer Islands,"[0,0,0,200]",[3I4A,11I1A,14I1A,14I1B]},
+Reserve,Wait until Needed,"[0,0,0,0]",[3A3A,3A3B,1I2A,1I2B,2I2A,2I2B,6I4A,6I4B,8I2A,8I2B,9I2A,9I2B]},
+AttSII,Attack Southerly Inner Islands,"[0,0,0,-200]",[4I4B,17I1B,12I1B,17I1A]},
+AttSOI,Attack Southerly Outer Islands,"[0,0,0,-200]",[4I4A,15I1B,11I1B,15I1A]},
+AttSPole CECap,Attack S Pole CECap Brigade,"[0,0,0,-200]",[2A4A,3M3B,5I4B,10I1B]},
+AttSPole W Brigade,Attack S Pole W Brigade,"[0,0,0,-200]",[2M4A,13I1B]}}
